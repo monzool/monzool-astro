@@ -14,7 +14,7 @@ However the default coloring scheme in Wp-Syntax is not to my taste, so I had to
 
 Wp-Syntax splits the source area on two columns with one optional column for line numbering and one for the source code. The formatting of the line numbering column and the boxes surrounding both columns are both configured separate from GeShi. The only thing required to style the non-GeShi things is to apply the desired formatting in the main css file (note that the Wp-Syntax css may override the GeShi css, e.g. color). All classes are documented on the Wp-Syntax notes page. Below is a snippet from this site configuration.
 
-```
+```css
 .wp_syntax {
   color: #404040;
   background-color: #F9F9F9;
@@ -35,7 +35,7 @@ Wp-Syntax splits the source area on two columns with one optional column for lin
 
 The GeShi part that formats the actual source code, requires a few more simple steps. The [Wp-Syntax notes page](http://wordpress.org/extend/plugins/wp-syntax/other_notes/ "Wp-Syntax notes"), explains how to modify changes to the default GeShi color settings. I don't find the method descriped that optimal. I would rather configure the coloring in sites css file. The steps required for this is described in the [GeShi documentation](http://qbnz.com/highlighter/geshi-doc.html#using-css-classes "GeShi Using css Classes"). First step is to enable the use of css classes. The documentation states that this should be enabled right after instantiation of the GeShi object. This can be done by adding lines 2 and 3 in the Wp-Syntax file `wp-syntax.php`.
 
-```
+```php
     $geshi = new GeSHi($code, $language);
     $geshi->enable_classes();
     $geshi->get_stylesheet();

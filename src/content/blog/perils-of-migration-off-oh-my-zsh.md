@@ -26,7 +26,7 @@ The auto-completion experience was pretty sub-par out of the box. I tried a few 
 
 `fzf-tab` sits on top of a pretty basic completion configuration
 
-```
+```zsh
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 ```
@@ -37,7 +37,7 @@ oh-my-zsh sets up decent history handling, so apart from increasing history size
 
 I am currently at this _work-in-progress_ configuration:
 
-```
+```zsh
 alias history='fc -i -l'         # yyyy-mm-dd HH:MM (24h)
 
 setopt extended_history          # save timestamp + duration
@@ -58,7 +58,7 @@ export HISTORY_IGNORE="(cd|cd ..|ls|ls *|ll|la|pwd|exit|clear|history|man *|whic
 
 I did have some extra shortcuts for history navigation. Something I found on the interweb in a distant past. Works quite well.
 
-```
+```zsh
 # Arrow key prefix search
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -82,14 +82,14 @@ zle -N down-line-or-local-history
 
 But now, without oh-my-zsh's [`lib/key-bindings.zsh`](https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/key-bindings.zsh), I had to tinker a lot more with the key bindings. This was actually a bit of a chore to set up and people on the interweb have a lot of different opinions on how to set this up. There are also some weird "gotchas" - apparently if `EDITOR=vim` is configured, zsh will also default to vim bindings.
 
-```
+```zsh
 # Emacs key bindings (prevents vi mode from EDITOR=vim)
 bindkey -e
 ```
 
 In the end this was confusing, cumbersome and a boring chore. I frankly ended up letting Copilot do the work, and it worked out great.
 
-```
+```zsh
 bindkey '^[OA' up-line-or-local-history         # Ctrl + Cursor up
 bindkey '^[OB' down-line-or-local-history       # Ctrl + Cursor down
 bindkey '^[[1;5A' up-line-or-history            # Application cursor mode up
@@ -151,7 +151,7 @@ To support this feature in a cross-OS, cross-terminal-emulator way, _Operating S
 
 The documentation for WezTerm can be read [here](https://wezterm.org/shell-integration.html#osc-7-escape-sequence-to-set-the-working-directory). To test it, write something like this in the shell to see the tab title change:
 
-```
+```bash
 printf '\e]7;file://%s%s\e\\' "$(hostname)" "$PWD"
 ```
 
@@ -159,7 +159,7 @@ While modern shells like [nushell](https://www.nushell.sh/) and [fish](https://f
 
 This is such a common situation that WezTerm ships its own official [`assets/shell-integration/wezterm.sh`](https://github.com/wezterm/wezterm/tree/main/assets/shell-integration), meant to be sourced from `.zshrc`/`.bashrc`
 
-```
+```zsh
 # .zshrc
 # Ref: https://wezterm.org/shell-integration.html
 function load_wezterm_integration() {
@@ -185,7 +185,7 @@ This fixed the directory tracking and both resurrect's saved state tracking and 
 
 Reflecting back to when using oh-my-zsh, both features worked there, so oh-my-zsh would certainly have a solution for handling both `OSC 7` and `OSC 2`. And sure enough, oh-my-zsh also has a script for hooking up zsh for handling these commands. Fortunately the feature was pretty confined and I could pick out the script for handling this with only a single helper script as dependency.
 
-```
+```zsh
 # .zshrc
 # Ref: https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/termsupport.zsh
 # Ref: https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/functions.zsh

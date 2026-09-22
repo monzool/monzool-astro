@@ -36,7 +36,7 @@ Anyway, over time it was observable that people got tired and became sloppy when
 
 Filling out the checklist appeared to fatigue the developers. Sloppiness and brevity increased. Then the worst part. The checklist was the first part to fill out before making the textual description of the PR.
 
-```
+```markdown
 # Checklist
 _Check relevant boxes and delete the rest_
 ☐
@@ -60,7 +60,7 @@ As the creator of git [pleads](https://github.com/torvalds/subsurface-for-dirk/b
 
 So I made a simple change and swapped the order of things and put the description first.
 
-```
+```markdown
 # Description
 _Write a description of the PR here_
 
@@ -83,7 +83,7 @@ The primary focus, and first thing you are required to do, is to write a textual
 The intent with the checkboxes might be right, but its audience was perhaps not tuned in perfectly. In practice its primarily a checklist of things one has to remember or consider when implementing certain kind of changes.  
 Reviewers will benefit more from a good summary rather than some boring checkboxes. For additional reviewer context and scope, there actually already were such fields to be filled out in the bottom of the template.
 
-```
+```markdown
 # Scope
 _Select one or more: 
     Framework, common, product-A,..._
@@ -117,7 +117,7 @@ Another "conflict" between the template and people using it, was that almost all
 
 This was an easy fix. I just made the guidelines into html comments.
 
-```
+```markdown
 # Description
 <!-- Write a description of the PR here -->
 ```
@@ -143,7 +143,7 @@ This is the first line, talking about my PR.
 The last line in the description section would often appear large and in bold.  
 In the template, every section is split with a separator marker that generates a horizontal line (`---`). What was in fact happening, was that people would not take care to leave an empty line above that separator marker, and unwillingly generate a headline.
 
-```
+```markdown
 This is a headline
 ---
 
@@ -156,7 +156,7 @@ The markdown viewer will interpret the first line as a headline because of the m
 
 Inserting a html comment before the separator marker resolved this issue.
 
-```
+```markdown
 # Description
 <!-- Write a description of the PR here -->
 

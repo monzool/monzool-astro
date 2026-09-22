@@ -24,7 +24,7 @@ Wait for compilation to complete (may take a while). If everything goes well, Kr
 
 Running Krusader I discovered that the Meta/Alt key was not possible to use. This is unfortunate as many keyboard shortcuts in Krusader uses that key. Fixing this requires two setup modifications. In the X11 preferences I deselected all options under the tab 'input'. This makes sure that X11 won't override any personal settings made on the keyboard setup. Alas this is exactly what is required for the Meta/Alt key to work. Terminate the X11 session and edit the file `~/.Xmodmap` (create it if not existing). Add the following keyboard mappings.
 
-```
+```text
 clear Mod1
 keycode 66 = Meta_L
 add Mod1 = Meta_L

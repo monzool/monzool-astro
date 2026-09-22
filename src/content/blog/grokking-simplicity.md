@@ -35,7 +35,7 @@ The example in the book is a shopping cart being added with items and a total co
 
 Also discussed are how functions that do general things, should not have domain specific namings. The concrete example is a function to append an item to the cart, which essentially is making a copy of the array and returning it with the new item added last. That is refactored like this:
 
-```
+```diff
 -function add_item(cart, item) {
 +function add_element_last(array, elem) {
 ```
@@ -46,7 +46,7 @@ The point of this chapter is to realize, that only dedicated functions should kn
 
 Immutable data has already been introduced, but in this chapter it goes full fletched on immutable data. Functions are identified by their read and/or access to data. Next it is explained how _copy-on-write_ can be used to convert write functions to read functions.
 
-```
+```diff
 function delete_handler(name) {
 - remove_item_by_name(shopping_cart, name);
 +   shopping_cart = remove_item_by_name(shopping_cart, name);

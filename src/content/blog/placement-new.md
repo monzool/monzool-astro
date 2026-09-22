@@ -14,7 +14,7 @@ This senario made me think of a rarely used memory allocation functionality call
 
 Below is a simple example of how to use the placement new functionality.
 
-```
+```cpp
 #include 
 #include 
 #include 
@@ -81,7 +81,7 @@ Explanation: First a memory pool is created that fits a fixed amount of the desi
 
 The first printing of the pool will display the following contents:
 
-```
+```text
 00 11 00 00 11 00
 ```
 
@@ -89,7 +89,7 @@ This indicates that two slots are allocated with objects of the class `C`.
 
 Destructing the objects are done by calling the destructor explicitly, NOT by normal delete action (as the memory pool original was created as a char array, the memory it occupies is tagged as a char array that must be deleted the approriate array delete operation). After destruction, the pool contents is displayed again, and it is seen that the same memory has been rewritten by the destructor assigning:
 
-```
+```text
 00 22 00 00 22 00
 ```
 

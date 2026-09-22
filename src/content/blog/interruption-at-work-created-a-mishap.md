@@ -15,7 +15,7 @@ categories:
 
 I was adding some new functionality and had just written the following:
 
-```
+```c
 switch (state) {
     case Step3:
         configuration.length = 10;
@@ -26,7 +26,7 @@ switch (state) {
 
 Next I added a line to specify the configuration data on index zero. With the intention of doing this for the remaining nine data indexes, I copy-pasted the first line and incremented the index.
 
-```
+```c
 switch (state) {
     case ConfigureTask:
         configuration.data[0] = 

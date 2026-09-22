@@ -11,7 +11,7 @@ categories:
 
 **I'VE BOUGHT A** copy of the game Sacred Gold in an edition that is ported to Linux. This would be very exiting... if it didn't segfault every time I start it `:-(`
 
-```
+```bash
 $ sacred
 sacred 1.0.1, built for i386        
 Segmentation Fault: I dont believe in dragons! oh...
@@ -36,7 +36,7 @@ Stack dump:
 
 The game publisher _Linux Game Publishing_ has provided a test tool that evaluates if your system should be able to execute the game...
 
-```
+```bash
 # testtool
 Testing installation... OK, installed at /usr/local/games/testtool
 Base system Test
@@ -60,7 +60,7 @@ X Error of failed request:  BadMatch (invalid parameter attributes)
 
 So It appeared that I had some trouble with the proprietary Nvidia driver. I ran glxinfo and indeed it gave an error.
 
-```
+```bash
 $ glxinfo | grep -i error
 Error: glXCreateContext failed
 
@@ -68,7 +68,7 @@ Error: glXCreateContext failed
 
 On the world wide web I found some hints about adding the following lines to xorg.conf.
 
-```
+```text
 Section "Files"
     ModulePath      "/usr/lib/xorg/modules/extensions"
     ModulePath      "/usr/lib/xorg/modules/drivers"   
@@ -81,7 +81,7 @@ That didn't help. `:-(`
 
 Grepping the logs however revealed some useful information
 
-```
+```bash
 $grep -i glx /var/log/*
 /var/log/Xorg.0.log:(II) "glx" will be loaded. This was enabled by default and also specified in the config file.
 /var/log/Xorg.0.log:(II) LoadModule: "glx"
@@ -101,7 +101,7 @@ It was clear that the Nvidia driver failed to intitalize the GLX module, but bef
 
 Looking into earlier investigated directories I could see that I had two different versions of the glx library files installed?
 
-```
+```bash
 /usr/lib/xorg/modules/extensions# ll
 -rwxr-xr-x 1 root root 1269220 2009-07-25 13:10 libglx.so.173.14.20
 -rw-r--r-- 1 root root  337008 2009-09-28 07:32 libglx.so
@@ -110,7 +110,7 @@ Looking into earlier investigated directories I could see that I had two differe
 
 It seemed strange that I had two so differently sized versions of libglx laying around, and also that the Nvidia version appeared not to be the default file. Searching for the libglx file revealed that only the `fglrx-driver` and the Nvidia drivers supplied that file.
 
-```
+```bash
 $ apt-file search libglx.so
 fglrx-driver: /usr/lib/xorg/modules/extensions/libglx.so
 nvidia-glx: /usr/lib/xorg/modules/extensions/libglx.so
@@ -128,7 +128,7 @@ xserver-xorg-core-dbg: /usr/lib/debug/usr/lib/xorg/modules/extensions/libglx.so
 
 Although the only glx package that was installed on the system was libgl1-mesa-glx.
 
-```
+```bash
 $ aptitude apts glx
 p   fglrx-glx
 i A libgl1-mesa-glx
@@ -137,7 +137,7 @@ i A libgl1-mesa-glx
 
 Looking at libgl1-mesa-glx showed that that package installed a OpenGL library file
 
-```
+```bash
 $dpkg -L libgl1-mesa-glx
 /.
 /usr
@@ -157,21 +157,21 @@ $dpkg -L libgl1-mesa-glx
 
 Strangely also here a Nvida version of the library existed in /usr/lib
 
-```
+```bash
 -rwxr-xr-x 1 root root   667528 2009-07-25 13:10 libGL.so.173.14.20
 
 ```
 
 This seemed like the Nvidia installer have had collisions with other already installed packages and had failed to resolve the situation properly. Unfortunately the installer had warned nothing about this situation. What I did then was to remove the existing libraries and make a symlink to the Nvidia libraries for libglx and libGL.
 
-```
+```bash
 /usr/lib/xorg/modules/extensions# ll libglx*
 lrwxrwxrwx 1 root root      19 2009-10-01 22:22 libglx.so -> libglx.so.173.14.20
 -rwxr-xr-x 1 root root 1269220 2009-07-25 13:10 libglx.so.173.14.20
 
 ```
 
-```
+```bash
 /usr/lib# ll libGL*
 lrwxrwxrwx 1 root root       18 2009-09-13 13:40 libGL.so.1 -> libGL.so.173.14.20
 lrwxrwxrwx 1 root root       18 2009-10-01 22:52 libGL.so.1.2 -> libGL.so.173.14.20
@@ -183,7 +183,7 @@ And then... glxinfo ran with no errors.
 
 The log also changed for the better
 
-```
+```bash
 $grep -i glx /var/log/*
 /var/log/Xorg.0.log:(II) "glx" will be loaded. This was enabled by default and also specified in the config file.
 /var/log/Xorg.0.log:(II) LoadModule: "glx"

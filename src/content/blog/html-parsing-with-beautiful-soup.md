@@ -14,7 +14,7 @@ On Debian, Beautiful Soup can be install via _apt-get_ / _aptitude_: `aptitude i
 
 The example below extracts the hit counter from this very page. Note that this is perhaps not the best example in the world (the only parse value used is the "footer" section), but it does exemplifies how easily the process of extracting data from a HTML page can be done when utilizing the Beautiful Soup parser.
 
-```
+```python
 #!/usr/bin/env python
 # coding=utf-8
 

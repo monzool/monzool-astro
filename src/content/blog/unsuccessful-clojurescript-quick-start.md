@@ -12,14 +12,14 @@ categories:
 
 Tutorial: Create structure and file
 
-```
+```bash
   mkdir -p src/hello_world;touch src/hello_world/core.cljs
 
 ```
 
 Me copy-pasta
 
-```
+```bash
   mkdir -p src/hello_world;touch src/hello_world/core.cljs
 
 ```
@@ -28,7 +28,7 @@ Me copy-pasta
 
 Tutorial: edit the src/hello\_world/core.cljs to look like the following:
 
-```
+```clojure
 (ns hello-world.core)
 (enable-console-print!)
 (println "Hello world!")
@@ -36,7 +36,7 @@ Tutorial: edit the src/hello\_world/core.cljs to look like the following:
 ```
 Me copy-pasta
 
-```
+```clojure
 ns hello-world.core)
 (enable-console-print!)
 (println "Hello world!")
@@ -47,7 +47,7 @@ ns hello-world.core)
 
 Tutorial: Add the following Clojure code to build.clj
 
-```
+```clojure
 (require 'cljs.build.api)
 (cljs.build.api/build "src" {:output-to "out/main.js"})
 
@@ -55,7 +55,7 @@ Tutorial: Add the following Clojure code to build.clj
 
 Me copy-pasta
 
-```
+```clojure
 (require 'cljs.build.api)
 (cljs.build.api/build "src" {:output-to "out/main.js"})
 
@@ -65,14 +65,14 @@ Me copy-pasta
 
 Tutorial: build it
 
-```
+```bash
 java -cp cljs.jar:src clojure.main build.clj
 
 ```
 
 Me copy-pasta
 
-```
+```bash
 java -cp cljs.jar:src clojure.main build.clj
 
 ```
@@ -81,7 +81,7 @@ java -cp cljs.jar:src clojure.main build.clj
 
 Tutorial: Create a file index.html
 
-```
+```html
 
     
         
@@ -97,7 +97,7 @@ Me copy-pasta
         
     
 
-```
+```html
 
     
         
@@ -109,7 +109,7 @@ Me copy-pasta
 
 Tutorial: open in browser and see error:
 
-```
+```text
 Uncaught ReferenceError: goog is not defined
 
 ```
@@ -121,7 +121,7 @@ _Check_
 
 Tutorial: modify index.html
 
-```
+```html
 
     
         
@@ -136,7 +136,7 @@ Tutorial: modify index.html
 
 Me copy-pasta
 
-```
+```html
 
     
         
@@ -157,7 +157,7 @@ Tutorial: Refresh your index.html and you should finally see "Hello world!"
 
 Me
 
-```
+```text
 base.js:677 goog.require could not find: hello_world.core
     goog.logToConsole_ @ base.js:677
     goog.require @ base.js:709
@@ -174,7 +174,7 @@ Wut??? Being a first attempter hello-world implementer surely doesn't make one f
 
 Did a list of files, although I had no idea what to look for
 
-```
+```bash
 hello-world» find
 .
 ./build.clj
@@ -222,7 +222,7 @@ Look okay I guess. If anything, only the file I've could have messed up would be
 
 For reasons unbeknownst to my self, I then opened the file in VSCode - the colorcoding immediately revealed something was wrong. The top line of the clojurescript file was not colored like the others
 
-```
+```clojure
 ns hello-world.core)
 (enable-console-print!)
 (println "Hello world!")
@@ -235,7 +235,7 @@ Wrong `ns hello-world.core)`
 
 Right
 
-```
+```clojure
 (ns hello-world.core)
 
 ```

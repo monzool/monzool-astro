@@ -15,7 +15,7 @@ categories:
 
 GitHub recommends [pinning actions to full commit SHAs](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions) for security. We also apply this practice to our own workflows and action for reproducebility. In practice that means that workflow files are full of lines like this:
 
-```
+```yaml
 uses: Internal-actions/utilities/.github/actions/read-project-file@1028f1aedf5426726c149b3bdfca0b68bf001567 # v1.0.12
 ```
 
@@ -35,13 +35,13 @@ The concept is simple. Two pieces of configuration work together:
 
 For example, telling git to use a driver called `latest-uses-version` for workflow files, first add a file matching rule in _.gitattributes_
 
-```
+```text
 .github/workflows/*.yml    merge=latest-uses-version
 ```
 
 Then define the driver by name and how it should be called in _.gitconfig_
 
-```
+```bash
 git config merge.latest-uses-version.name "Pick latest uses version"
 git config merge.latest-uses-version.driver "python3 merge-latest-uses-version.py %O %A %B"
 ```
@@ -52,7 +52,7 @@ When git encounters a conflict in a matching file, it will call the driver with 
 
 I wrote a Python script to handle the `uses` version conflicts. In our setup, every `uses` line is sha-pinned _and_ always has a semver comment appended (ensured by another automation script), like `@abc123... # v1.0.12`. That comment is what makes it possible for the driver to compare the two sides of a conflict and pick the newer version.
 
-```
+```python
 #!/usr/bin/env python3
 
 import re
@@ -125,13 +125,13 @@ The **file pattern mapping** goes in `.gitattributes` - either a global file (po
 
 To automate this setup for coworkers, I made a script to do the git setup.
 
-```
+```bash
 ./setup-merge-driver.sh
 ```
 
 _setup-merge-driver.sh_:
 
-```
+```bash
 #!/usr/bin/bash
 
 # Install the "latest-uses-version" custom merge driver globally.
@@ -201,7 +201,7 @@ echo "Done. The merge driver is ready for all repositories."
 
 With the driver installed, what used to be a manual chore now just works. Given a conflict like this during merge:
 
-```
+```diff
 <<<<<<< HEAD
       uses: Internal-actions/utilities/.github/actions/read-project-file@1028f1aedf5426726c149b3bdfca0b68bf001567 # v1.0.12
 =======
@@ -211,7 +211,7 @@ With the driver installed, what used to be a manual chore now just works. Given 
 
 The driver picks `v1.0.15` and the merge completes cleanly:
 
-```
+```yaml
       uses: Internal-actions/utilities/.github/actions/read-project-file@386f499a1f68c20a15df7ad877b77fa139d7e932 # v1.0.15
 ```
 
@@ -221,7 +221,7 @@ No manual intervention needed. Git now just does the right thing 🧙
 
 As a note, then the `uses` version driver is just one driver. Git supports as many custom merge drivers as as desired
 
-```
+```bash
 # Driver 1: sha-pinned action versions
 git config merge.latest-uses-version.name "Pick latest sha-pinned action version"
 git config merge.latest-uses-version.driver "python3 scripts/merge-latest-uses-version.py %O %A %B"
@@ -237,7 +237,7 @@ git config merge.keep-ours.driver "true"
 
 ### `.gitattributes` routes files to drivers
 
-```
+```text
 .github/workflows/*.yml     merge=latest-uses-version
 package-lock.json           merge=package-lock
 generated/**                merge=keep-ours

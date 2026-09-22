@@ -19,9 +19,9 @@ Since my last endeavor into finding a bash alternative, I’ve seen my work-life
 This post is available in two places
 
 - On the monzool.net [blog](https://monzool.net/blog/2024/07/14/a-second-search-for-bash-scripting-alternatives/), for a pretty viewing.
-    
+
 - On [github](https://github.com/monzool/A-Search-for-BASH-Scripting-Alternatives) where the source code is also available. This post is the _Take2_ part of this series (direct preview link here: [preview](https://github.com/monzool/A-Search-for-BASH-Scripting-Alternatives/blob/master/Take2/Take2.md))
-    
+
 
 * * *
 
@@ -96,9 +96,9 @@ Documentation and examples weight in hard as a requirement, as otherwise guessin
 
 Below is a list of languages in the pool for trying out. Each is marked with the following icons to indicate the level of application
 
-📬 - have an implementation of the sample code  
-📫 - attempted sample implementation  
-📪 - no sample consdered  
+📬 - have an implementation of the sample code
+📫 - attempted sample implementation
+📪 - no sample consdered
 🗑️ - not considered
 
 ## Shells
@@ -132,22 +132,22 @@ Below is a list of languages in the pool for trying out. Each is marked with the
 There are some really interesting languages out there that unfortunately do not fit within all parameters, regarding being applicable for a small embedded system.
 
 - [elk](https://elk.strct.net/) 🗑️
-    
+
     This is a tremendously interesting project. It looks very complete, versatile and pretty much check-marking all the [boxes](https://elk.strct.net/other/bash-literals.html) . There is just that issue that its a .NET 8 application and requires several hundreds of megabyte in memory and storage. There are some efforts in progress getting NativeAOT to cross-compile to [arm32](https://github.com/dotnet/runtime/issues/97729), but for now I do not consider it a viable contender
-    
+
 - [dart](https://dart.dev/) with [dlic](https://dcli.onepub.dev/) 🗑️
-    
+
     dlic looks very interesting, and dart has a rumour of being very approachable. There is unfortunately a relatively high size and memory use if to be used as non-compiled scripts. [Hank G](https://www.nequalsonelifestyle.com/2021/12/13/dart-minimum-file-mem-and-run-time/) have some interesting measurements indicating up to 100 MB of memory usage for the runtime. If abandoning script interpretation and settle for complied programs, the resource usage can approach about a tenth of that.
-    
+
 - [gleam](https://gleam.run/) or [elixir](https://elixir-lang.org/) on [AtomVM](https://www.atomvm.net) 🗑️
-    
-    I’ve been making a few small projects in gleam. Its a interesting language and a very well driven project overall. The BEAM ecosystem is probably a bit on the bigger side. There is the AtomVM alternative, but it is unclear if gleam or elixir is able to run on that. Both are compiled languages, so they don’t really fit the agenda anyway.  
+
+    I’ve been making a few small projects in gleam. Its a interesting language and a very well driven project overall. The BEAM ecosystem is probably a bit on the bigger side. There is the AtomVM alternative, but it is unclear if gleam or elixir is able to run on that. Both are compiled languages, so they don’t really fit the agenda anyway.
     (P.S. consider doing like me, and [sponsor](https://github.com/sponsors/lpil) the amazing gleam project).
-    
+
 - [arsh](https://github.com/sekiguchi-nagisa/arsh) 🗑️
-    
+
     [Appears](https://github.com/sekiguchi-nagisa/arsh/blob/master/sample/todo.ds) to be bash with types? The documentation is sadly pretty much non-existing.
-    
+
 
 ## Future contenders
 
@@ -155,8 +155,8 @@ For sure I have not depleted the realm of bash alternatives, so I am going to su
 
 * * *
 
-  
-  
+
+
 
 # bash
 
@@ -166,13 +166,13 @@ The sample task is obvious to solve with a dictionary, where the key is the exte
 
 For each key (file extension) I serialize the list of files associated to that extension.
 
-```
+```bash
 file_list["${extension}"]+=$'\n'"${filename}"
 ```
 
 When printing, I then deserialize to get the filenames back in entity form.
 
-```
+```bash
 deserialize_array() {
     local serialized="${1}"
     IFS=$'\n' read -r -d '' -a file_category <<< "${serialized}" || :
@@ -183,7 +183,7 @@ The implemented solution actually have a limitation, in that it does not support
 
 For getting the file list, I’ve resorted to just use `find`. Now, bash could glob the files
 
-```
+```bash
 for file in "${dir}"/**; do
     if [[ ! -f "${file}" ]]; then
         continue
@@ -196,7 +196,7 @@ but for this to work, then you need to remember to poke the shell options `shopt
 
 The sharp observer will notice that the `IFS` is temporarily poked for find files.
 
-```
+```bash
 while IFS= read -r -d '' file; do
     file_list_all+=("${file}")
 done < <(find "${dir}" -type f -print0)
@@ -208,7 +208,7 @@ Its a common technique prevent word splitting and pathname expansion… `IFS` is
 
 Bash have [`getopts`](https://man7.org/linux/man-pages/man1/getopts.1p.html) builtin for parsing program argument. There is also [getpopt](https://www.man7.org/linux/man-pages/man1/getopt.1.html) for some additional features. I rarely use ’em. They both kinda suck, are both complicated and I can never remember how they work. A simple loop of case matching, is far sufficient for most of my situations
 
-```
+```bash
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --list-dir)
@@ -221,7 +221,7 @@ while [[ $# -gt 0 ]]; do
 
 Passing arguments to bash functions are kind of old school. There are no parameter list, instead arguments are passed in to be referenced by a numeric index variable. First argument is `${1}`, second argument is `${2}` and so on. I’m used to it, but its kind of odd, come to think of it. There are various gotcha’s when having values with spaces, but otherwise it works as expected… Except for associative arrays - then it gets complicated. Therefor I resorted to pass them as references
 
-```
+```bash
 present_results() {
     declare -n extension_count_ref="${2}"
     declare -n file_list_ref="${3}"
@@ -233,7 +233,7 @@ It might come as a surprise that bash supports this kind of indirection, but bas
 
 Why even mention such a trivial matter as returning values from? Well in bash its… limited. We either return integer values or echo strings. Using `echo` to return strings, makes other printing complicated which, among other things, can make debugging hard. The basic string return, do let you set your own rules when in a script. It is for example possible to fake tuple like return values
 
-```
+```bash
 get_tuple() {
     echo "Year|2024"
 }
@@ -245,7 +245,7 @@ But using such tricks, quite quickly make things get… complicated. Being bash 
 
 I do use the above mentioned trick sometimes, but over time I’ve mostly settled on a simpler principle: return zero or non-zero if to indicate success or fail, and if returning a value, put it in a global variable. This might sound chocking, but in practice it works quite fine.
 
-```
+```bash
 return_value=
 get_return_value() {
     return_value="magic"
@@ -254,7 +254,7 @@ get_return_value() {
 
 It do have its limitation in some corner cases (its a global variable after all), but its not much worse that bash’s dynamic scoping anyway. What it certainly does is reducing complexity instead of loops and tricks and hacks to simulate proper return values. One key principal to limit the “pollution” of global variables, is then to never use the variable directly, except as arguments to other functions
 
-```
+```bash
 use_return_value() {
     local value="${1}"
     echo "${value}"
@@ -271,7 +271,7 @@ On an interesting note, then its possible to simulate named parameters in bash. 
 
 What does this snippet print?
 
-```
+```bash
 get() {
     return false
 }
@@ -282,7 +282,7 @@ get && echo success || echo fail
 
 Below is how it is actually supposed to be:
 
-```
+```bash
 get() {
     false
 }
@@ -293,7 +293,7 @@ That’s just one footgun that I got hit by in the sample script.
 
 In an early incarnation of the sample script, this was how the line to increment the extension count looked like
 
-```
+```bash
 (( extension_count["${extension}"]++ ))
 ```
 
@@ -301,7 +301,7 @@ At first glance this seems fine, but in fact it is not. It can be very puzzling,
 
 Inspecting the exit code, gives some indication
 
-```
+```bash
 ❱ echo $?
 1
 ```
@@ -310,13 +310,13 @@ What happens is that lookup returns 0, then incrementing causes the overall expr
 
 Lets just bypass `errexit` and override the non-zero with a NOP
 
-```
+```bash
 (( extension_count["${extension}"]++ )) || :
 ```
 
 Similar issue is the reason why the deserializer looks like this
 
-```
+```bash
 deserialize_array() {
     local serialized="${1}"
     IFS=$'\n' read -r -d '' -a deserialized <<< "${serialized}" || :
@@ -327,8 +327,8 @@ In this configuration, `read` returns non-zero on EOF - which we will inevitable
 
 The unofficial bash “safe” mode is not without its issues ❗
 
-  
-  
+
+
 
 # elvish
 
@@ -340,8 +340,8 @@ Elvish is an amazing effort that just continues to improve, commit after commit,
 
 vscode plugin: https://marketplace.visualstudio.com/items?itemName=elves.elvish
 
-Shell: ✅  
-Approachable for a bash’er: ⭐☆☆☆☆  
+Shell: ✅
+Approachable for a bash’er: ⭐☆☆☆☆
 Enjoyment: ⭐☆☆☆☆
 
 ## Returning values from functions
@@ -350,7 +350,7 @@ I browsed the entire [learn](https://elv.sh/learn/)section with no hint of how t
 
 In fact, the first thing that looks like a function was [this](https://elv.sh/learn/scripting-case-studies.html#update-servers-in-parallel.elv) example:
 
-```
+```elvish
 var hosts = [[&name=a &cmd='apt update']
              [&name=b &cmd='pacman -Syu']]
 peach {|h| ssh root@$h[name] $h[cmd] } $hosts
@@ -358,19 +358,19 @@ peach {|h| ssh root@$h[name] $h[cmd] } $hosts
 
 The explanation was clear enough, so rolled my own edition
 
-```
+```elvish
 say {|message| put $message} "Hello, world!"
 ```
 
 But got this back
 
-```
+```text
 Exception: exec: "say": executable file not found in $PATH
 ```
 
 Oh. Not a function definition, but instead a command. Lots of reading later I was able to put this together
 
-```
+```elvish
 fn say {|message| put $message }
 say "Hello, world!"
 ▶ 'Hello, world!'
@@ -380,7 +380,7 @@ As mentioned, a frustrating lot of reading was then required to figure out, how 
 
 Finding the `put` documentation was not easy, but eventually I found a mention [here](https://elv.sh/learn/tour.html#value-output).
 
- 
+
 | Command | Functionality |
 | --- | --- |
 | [`put`](https://elv.sh/ref/builtin.html#put) | Writes arguments as value outputs |
@@ -397,7 +397,7 @@ So from deduction, I could reason that elvish in fact use `put` for returning va
 
 After quite some searching, I found an [example](https://elv.sh/learn/effective-elvish.html#returning-values-with-structured-output) of how to capture the return values. It appears to work, and even for lists
 
-```
+```elvish
 fn get-url {
     put ["monzool" "." "net"]
 }
@@ -410,7 +410,7 @@ echo $url
 
 That naturally made me curious. What if you have more that one `put` or `printf`?
 
-```
+```elvish
 fn get-url {
     printf "Debug: calling get-url"
     put ["monzool" "." "net"]
@@ -421,7 +421,7 @@ var url = (get-url)
 
 This gives a compile error:
 
-```
+```text
 Exception: arity mismatch: assignment right-hand-side must be 1 value, but is 2 values
 ```
 
@@ -431,7 +431,7 @@ I then tested `echo`, `printf` and `put`. None print directly to stdout, but are
 
 _sample.elv_
 
-```
+```elvish
 fn get-values {
     echo "first"
     printf "second"
@@ -446,7 +446,7 @@ printf "third = %s\n" $third
 
 The above sample lead to much confusion. On first run I thought I had the order wrong.
 
-```
+```elvish
 ❱ ./sample.elv
 first = third
 second = second
@@ -455,14 +455,14 @@ third = first
 
 Running it a few more times showed that, that was not the issue. Its arbitrary which variable receives which value from the function
 
-```
+```elvish
 ❱ ./sample.elv
 first = first
 second = second
 third = third
 ```
 
-```
+```elvish
 ❱ ./sample.elv
 first = second
 second = third
@@ -475,7 +475,7 @@ _If the chunk outputs both values and bytes, the values of output capture will c
 
 Sure enough, switching to same print function, make the return values predictable
 
-```
+```elvish
 fn get-values {
     put "first"
     put "second"
@@ -495,7 +495,7 @@ _\[snip\] non-zero exits from external commands are also turned into exceptions:
 
 IMO exceptions should be for the _exceptional_ case. An external command returning non-zero is not an exceptional case - it might not even be an error situation
 
-```
+```bash
 grep ERROR run_with_no_error.log
 ```
 
@@ -503,8 +503,8 @@ I suspect I’ll be required to add a lot of `try/catch` in most scripts then. O
 
 A situation like “command not found” would probably be a situation I could live with, being an exception. Instead of general exception use, I would have preferred a result type, that I would then have to inspect if I cared about the exit code. Alternatively, do like [murex](#murex-error-handling-anchor) and make it up to the user if an exit code or an exception is desired
 
-  
-  
+
+
 
 # murex
 
@@ -514,15 +514,15 @@ A situation like “command not found” would probably be a situation I could l
 
 I stopped the murex sample short. I ended up spending way to much time getting no where. The documentation do have some minimal usage examples for most components, but I found it difficult to figure out how to combine the individual pieces. The [nushell](#nushell-anchor) which shares much spirit with murex, have better examples that made that language more approachable
 
-Shell: ✅  
-Approachable for a bash’er: ⭐☆☆☆☆  
+Shell: ✅
+Approachable for a bash’er: ⭐☆☆☆☆
 Enjoyment: ⭐☆☆☆☆
 
 ## Special features
 
 Murex has an pretty neat features backed in. One is [events](https://murex.rocks/events/). This allows to do stuff on e.g. file system changes
 
-```
+```murex
 event onFileSystemChange example=. {
     -> set event
     if { $event.Interrupt.Operation =~ "create" } then {
@@ -541,7 +541,7 @@ Error handling in murex is dual paradigm. You either choose to get success/fail,
 
 For most situations you really on care if a specific command succeeds or not
 
-```
+```murex
 if { code-block } then {
     # true
 } else {
@@ -555,7 +555,7 @@ If you care about the exit-code, murex have a similar concepts as bash, by provi
 
 Other times, you just need to run a batch of commands, and if any of them fails, then just bail.
 
-```
+```murex
 try {
     out "Hello, World!" -> grep: "non-existent string"
     out "This command will be ignored"
@@ -571,7 +571,7 @@ catch {
 
 Question. What does this do?
 
-```
+```murex
 if { g /dev/null } then {
     out "true"
 }
@@ -589,11 +589,11 @@ Just like with the elvish documentation, it is frustratingly difficult to find a
 
 I found no immediate candidates for file listing tools like `find`. Instead murex provide a globbing tool to do [filesystem wildcards](https://murex.rocks/tour.html#filesystem-wildcards-globbing). I found an example in the rosetta stone [page](https://murex.rocks/user-guide/rosetta-stone.html#common-one-liners).
 
-```
+```murex
 ❱ f +d | foreach $dir { out $i }
 ```
 
-```
+```text
 Error in `out` (1,14): variable 'i' does not exist
                      > Expression: out $i
                      >           :      ^
@@ -610,7 +610,7 @@ Error in `out` (1,14): variable 'i' does not exist
 
 Well, it sure is eager to tell you where you went wrong 😅😅😅 But the error message is actually quite informative, so it was easy to fix the official example
 
-```
+```murex
 f +d | foreach $dir { out $dir }
 .git
 test
@@ -618,7 +618,7 @@ test
 
 Where [`f`](https://murex.rocks/commands/f.html) is filtering, [`g`](https://murex.rocks/commands/g.html) is for doing the globbing, but it appears that there is no way to recursively list all sub-directories?
 
-```
+```murex
 ❱ g test/**
 [
     "test/ untrimmed .doc",
@@ -645,7 +645,7 @@ One would think calling a function with some arguments would be simple. None the
 
 Objective: call this function with a path
 
-```
+```murex
 function get_file_list (dir: path) {
     file_list = ${ find $dir -type f }
     out $file_list
@@ -654,13 +654,13 @@ function get_file_list (dir: path) {
 
 Like bash?
 
-```
+```murex
 get_file_list "test"
 ```
 
 No ❌
 
-```
+```text
 unexpected closing bracket '}'
 Expression: }  get_file_list "test"
           :  ^
@@ -670,22 +670,22 @@ Error in `./sample.mx` (0,1): exit status 1
 
 Use parentheses?
 
-```
+```murex
 get_file_list ("test")
 ```
 
 No ❌ ([single quoting](https://murex.rocks/parser/single-quote.html) gave same result)
 
-```
+```text
 find: "test": No such file or directory
 Error in `find` (./sample.mx 1,102):
-      Command: find $dir -type f 
+      Command: find $dir -type f
       Error: exit status 1
 ```
 
 Placing the value in a variable before calling?
 
-```
+```murex
 set list_dir = 'test'
 get_file_list ($list_dir)
 ```
@@ -694,7 +694,7 @@ Yes 😐
 
 Calling with no space between function and argument? …
 
-```
+```murex
 get_file_list('test')
 ```
 
@@ -733,19 +733,19 @@ I cannot figure out how to add to a map. There are documented examples where a m
 
 Lets create a map `m`
 
-```
+```murex
 ❱ m = %{ "net": ["a", "b"]}
 ```
 
 Use a key and value to add an entry
 
-```
+```murex
 ❱ m["txt"] = ["c"]
 ```
 
 No ❌
 
-```
+```text
 unexpected symbol '[' (91)
 Expression: m1["txt"] = ["c"]
           :   ^
@@ -754,13 +754,13 @@ Character : 2
 
 [`append`](https://murex.rocks/commands/append.html) is only for arrays, but lets try
 
-```
+```murex
 ❱ $m | append %{ "txt" : ["c"]}
 ```
 
 No ❌
 
-```
+```json
 [
     "{\"net\":[\"a\",\"b\"]}",
     "{\"txt\":[\"c\"]}"
@@ -769,13 +769,13 @@ No ❌
 
 Using [`map`](https://murex.rocks/commands/map.html) gives me some kind of mutant result 🧌
 
-```
+```murex
 ❱ map { $m1 } { %{ "txt": ["c"] } }
 ```
 
 No ❌
 
-```
+```json
 {
     "net: [\"a\",\"b\"]": "txt: [\"c\"]"
 }
@@ -783,8 +783,8 @@ No ❌
 
 Oh well. I decided to throw in the towel here, and abandon the murex sample 🤷‍♀️
 
-  
-  
+
+
 
 # Hush
 
@@ -798,14 +798,14 @@ Documentation is great with complete and precise examples. I had no real issues 
 
 vscode: https://marketplace.visualstudio.com/items?itemName=hush-vscode.hush
 
-Approachable for a bash’er: ⭐⭐⭐⭐⭐  
+Approachable for a bash’er: ⭐⭐⭐⭐⭐
 Enjoyment: ⭐⭐⭐⭐☆
 
 ## About hush
 
 Sadly hush appears to be borderline abandonware
 
-```
+```bash
 ❱ git log --date=format:'%Y' --pretty=format:'%ad' | sort | uniq -c | awk '{print $2 ": " $1}'
 2020: 4
 2021: 211
@@ -818,7 +818,7 @@ Sadly hush appears to be borderline abandonware
 
 I installed from cargo `cargo install hush`, but when parsing arguments using regex I was blocked on this error
 
-```
+```text
 error: "invalid regex" ("regex parse error:\n    --(\\w+)=?(\\w+)?\n       ^^\nerror: Unicode-aware Perl class not found (make sure the unicode-perl feature is enabled)")
 ```
 
@@ -832,7 +832,7 @@ From the issue responses its clear that the author do not have time to maintain 
 
 As far as I understand, hush only accepts single bool expressions as conditions. This means that this is not possible
 
-```
+```hush
 if value == 1 or value == 42 then
 ```
 
@@ -842,7 +842,7 @@ This could a bit lacking if comparing range values, but for most cases this is a
 
 I mentioned that hush do not have any file I/O built-in, but [command blocks](https://hush-shell.github.io/cmd/basic.html) can be used as a fallback. The ability to just “switch” a section to shell scripting is incredible flexible. Got that magic bash one-liner that generates rainbows 🌈 and unicorns 🦄? Just put it in a command block and enjoy
 
-```
+```hush
 function get_file_list(dir)
     let file_list = ${
         find "${dir}" -type f -print0
@@ -854,7 +854,7 @@ end
 
 If did found one thing I could not get to work with command blocks, and that was to access program arguments. Hush will crash if trying to access any bash `$` variables. I discovered this, when having failed to find a native way to get the script directory.
 
-```
+```hush
 let script_dir = { dirname "$0" }
 std.cd(script_dir)
 ```
@@ -865,7 +865,7 @@ This crashes hush with a rust error. I find it not to be an unreasonable limitat
 
 Dictionaries access is a bit inconsistent on the keys. Initialization do not accept string type as keys, so any key with space or dash is not possible
 
-```
+```hush
 let dict = @[
     "key 1": nil,
     "key-2": nil
@@ -874,14 +874,14 @@ let dict = @[
 
 Both key/value pairs above give compile errors.
 
-```
+```text
 Error: (line 9, column 4) - unexpected '"key 1"', expected identifier
 Error: (line 10, column 4) - unexpected '"key-2"', expected identifier
 ```
 
 However assign and access is possible with both spaces and dashes
 
-```
+```hush
 dict["key 1"] = "space"
 dict["key-2"] = "dash"
 ```
@@ -900,13 +900,13 @@ Color printing using ansi codes did not work. I could not get `std.print` to han
 
 Printing dictionaries gives a pretty good idea on what is in it, however when printing an error, it will give output like this
 
-```
+```text
 error: "command returned non-zero" (@[ "stderr": "", "stdout": "", "error": @[ "pos": "\u{1b}[38;5;2m./sample.hsh\u{1b}[39m (line 109, column 8)", "status": 1 ] ])
 ```
 
 There are actually two hidden keys in the dictionary. The value _“command returned non-zero”_ , which is a textual message of the error, is in a key `description`. The rest of the printed content is in a key `context`
 
-```
+```hush
 if (std.has_error(search_result)) then
     std.println("Description: " ++ search_result.description)
     std.println("Status: " ++ std.to_string(search_result.context.error.status)))
@@ -918,11 +918,11 @@ It is [documented](https://hush-shell.github.io/cmd/basic.html#errors), just not
 
 Compile errors was pretty good and its reasonable easy to find the culprits from its messages. A lot better that bash
 
-```
+```hush
 if std.contains(arg, "--list-dir=") then
 ```
 
-```
+```text
 Panic in ./sample.hsh (line 28, column 23): value ("--list-dir=") has unexpected type, expected character
 ```
 
@@ -932,8 +932,8 @@ I didn’t make any notes during development of the Hush sample, as there wasn�
 
 I only had these obstacles during the process 1) I could not find a way to change the current directory to that of the script 2) I could not find a easy way to do generate random numbers 3) Ansi escape codes do not work for setting color. Had to use `tput` 4) How to extract error context values is not obvious
 
-  
-  
+
+
 
 # Koi
 
@@ -949,7 +949,7 @@ Writing Koi code was pretty much just like writing Hush. It was quite straight f
 
 Documentation was fine, but for the most part implicit from examples
 
-Approachable for a bash’er: ⭐⭐⭐⭐☆  
+Approachable for a bash’er: ⭐⭐⭐⭐☆
 Enjoyment: ⭐⭐⭐☆☆
 
 ## About Koi
@@ -958,13 +958,13 @@ Where most other script languages use `$` for referencing variables (`$var`), in
 
 Koi also takes a more object oriented approach where variables have methods.
 
-```
+```koi
 print('koi'.upper().split('o'))
 ```
 
 Sadly it appears to be abandonware
 
-```
+```bash
 ❱ git log --date=format:'%Y' --pretty=format:'%ad' | sort | uniq -c | awk '{print $2 ": " $1}'
 2020: 134
 2021: 181
@@ -980,7 +980,7 @@ It is not documented, and I found no way to do it… Koi scripts cannot receive 
 
 Instead of the script receiving arguments, the Koi interpreter itself would hijack the arguments
 
-```
+```koi
 ❱ ./sample.koi --list-dir=test
 error: Found argument '--list-dir' which wasn't expected, or isn't valid in this context
 
@@ -996,7 +996,7 @@ That is somewhat of a major bummer ☹️
 
 Made a mistake, and referenced an non-existing variable
 
-```
+```diff
 fn get_file_list(dir) {
     let files = $(
         find {dir} -type f -print0
@@ -1012,7 +1012,7 @@ This gives **no** indication of error ❗
 
 Koi will not split on `\0` so had to change the `find` command to separate by newlines
 
-```
+```diff
 fn get_file_list(dir) {
     let files = $(
 - find {dir} -type f -print0
@@ -1027,7 +1027,7 @@ fn get_file_list(dir) {
 
 How to append values to an array is not documented. Figured out this would work
 
-```
+```koi
 let a = [1]
 a += [2]
 
@@ -1042,7 +1042,7 @@ I could not get any color printing to work with Koi’s built in `print` functio
 
 As mentioned, Koi do not always detect mistakes, but when it does, the errors messages are lacking detail
 
-```
+```text
 thread 'main' panicked at src/parser/stmt.rs:163:13:
 expected right brace
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -1052,11 +1052,11 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 This is the extend of message from pretty much any mistake you can make in Koi (non-existing variable or function, syntax mistake etc). This makes mistakes pretty hard to locate ❗
 
-```
+```koi
 fn blue() { tput setaf 4 }
 ```
 
-```
+```text
 thread 'main' panicked at src/parser/stmt.rs:61:30:
 only assignment, call and command expressions are allowed as statements
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -1066,14 +1066,14 @@ This is not helpful - especially when you have added many lines since last run.
 
 Btw the fix is this
 
-```
+```koi
 fn blue() {
     tput setaf 4
 }
 ```
 
-  
-  
+
+
 
 # abs
 
@@ -1085,8 +1085,8 @@ Creating the sample was very easy. As I made the Koi sample before this, the abs
 
 vscode: https://marketplace.visualstudio.com/items?itemName=abs-lang.vscode-abs
 
-Repl: ✅  
-Approachable for a bash’er: ⭐⭐⭐⭐☆  
+Repl: ✅
+Approachable for a bash’er: ⭐⭐⭐⭐☆
 Enjoyment: ⭐⭐⭐⭐☆
 
 ## Returning values from functions
@@ -1103,7 +1103,7 @@ abs have a nice [cli library](https://www.abs-lang.org/stdlib/cli/) for making i
 
 Like most of the other languages (bash and hush being the exceptions), abs would not split on null terminations
 
-```
+```diff
 -files = `find $dir -type f -print0`.split('\0')
 +files = `find $dir -type f`.lines()
 ```
@@ -1120,13 +1120,13 @@ I cannot find any way to make color printing work properly
 
 `echo` with ansi codes just print the uninterpreted text
 
-```
+```abs
 echo("$prefix \e[34m $text \e[0m")
 ```
 
 An all bash command do the same
 
-```
+```bash
 `printf "$prefix \e[34m %s \e[0m" "$text"`
 ```
 
@@ -1136,11 +1136,11 @@ What _sorta_ work is using `tput`, however as I could not find any way to print 
 
 I accidentally did `.[` instead of `[` and got a parsing fail stack back
 
-```
+```abs
 if categorized_files.[extension] == null {
 ```
 
-```
+```text
  parser errors:
         expected next token to be [, got IDENT instead
         [46:30]         if categorized_files.[extension] == null {
@@ -1155,12 +1155,12 @@ I guess the error message could have been more precise, but it was perfectly eas
 
 However more than once I ended up with something like this, which could be somewhat hard to locate
 
-```
+```text
 bash: -c: line 1: unexpected EOF while looking for matching ``'
 ```
 
-  
-  
+
+
 
 # nushell
 
@@ -1178,8 +1178,8 @@ There is lots to learn when switching from bash to nushell, but I think nushell 
 
 vscode language plugin: https://marketplace.visualstudio.com/items?itemName=TheNuProjectContributors.vscode-nushell-lang
 
-Shell: ✅  
-Approachable for a bash’er: ⭐☆☆☆☆  
+Shell: ✅
+Approachable for a bash’er: ⭐☆☆☆☆
 Enjoyment: ⭐⭐⭐⭐☆
 
 ## Function return values
@@ -1190,7 +1190,7 @@ I think what makes these “shell first, scripting second” projects a little d
 
 One example is the [`complete`](https://www.nushell.sh/commands/docs/complete.html) command. I stumbled upon `complete` when reading about capturing [exit-codes](https://www.nushell.sh/book/stdout_stderr_exit_codes.html#using-the-complete-command).
 
-```
+```nushell
 > cat unknown.txt | complete
 ╭───────────┬─────────────────────────────────────────────╮
 │ stdout    │                                             │
@@ -1201,7 +1201,7 @@ One example is the [`complete`](https://www.nushell.sh/commands/docs/complete.ht
 
 It wasn’t immediate clear to me how that transitioned to be used in a script, but I was lucky to find an example on an external site, a [blogpost](https://jpospisil.com/2023/05/25/writing-shell-scripts-in-nushell) by [Jiri Pospisil](https://jpospisil.com/):
 
-```
+```nushell
 let response = (curl --fail -s $url | complete)
 
 match $response.exit_code {
@@ -1239,7 +1239,7 @@ _**Thinking in Nushell**: If you’re used to using mutable variables for differ
 
 I wondered why I got a type error when attempting to filter `file_list`. Found the [`describe`](https://www.nushell.sh/commands/docs/describe.html) function for revealing the underlying type
 
-```
+```nushell
 let file_list = (ls "./test" | where type == file)
 $file_list | describe
 
@@ -1250,7 +1250,7 @@ Oh. I was attempting to stream a table into something that expected a list. So h
 
 This is one way to do it
 
-```
+```nushell
 let file_paths = $file_list | get name
 $file_paths | group-by { path parse | get extension }
 ```
@@ -1265,7 +1265,7 @@ Update: found the documentation in the [bash comparison sheet](https://www.nushe
 
 I have a record of the file categories. I cannot figure out how to extract key value pairs from this
 
-```
+```nushell
 let file_categories = $file_list | group-by { path parse | get extension }
 $file_categories | describe
 
@@ -1282,7 +1282,7 @@ nushell is a typed language, so function parameters can optionally be annotated 
 
 I am a little confused on how commands work. This example do not act like I would expect
 
-```
+```nushell
 def print_category [extension: string, filenames: list] {
     echo "Category: ($extension)"
 }
@@ -1293,7 +1293,7 @@ print_category "dat" ["1", "2"]
 
 The parameter value is not expanding? I noticed the command examples all use string interpolation.
 
-```
+```nushell
 def greet [name] {
   $"hello ($name)"
 }
@@ -1304,7 +1304,7 @@ greet nushell
 
 Using `echo` or `print` appears not to work in commands, while interpolation do?
 
-```
+```nushell
 def print_category [extension: string, filenames: list] {
     print "Category: ($extension)"
     $"Category: ($extension)"
@@ -1319,18 +1319,17 @@ print_category "dat" ["1", "2"]
 
 Aha! This worked
 
-````
-```nushell
+```diff
 def print_category [extension: string, filenames: list] {
 - print "Category: ($extension)"
 +   $extension | print
     $"Category: ($extension)"
 }
-````
+```
 
 Ohh. Maybe I understood nothing in regard to printing. This also works
 
-```
+```nushell
 print $"Category: ($extension)"
 ```
 
@@ -1340,7 +1339,7 @@ At this point, I am not entirely sure how things work. Its nothing like anything
 
 From the categorizing, I got files with full path and extension, but should on have filename for each extension
 
-```
+```diff
 -let file_categories = $file_list | group-by { path parse | get extension }
 +let file_categories = $file_list | path basename | group-by { path parse | get extension }
 ```
@@ -1357,13 +1356,13 @@ Was okay easy to find out that [`do`](https://www.nushell.sh/commands/docs/do.ht
 
 Nushell have native support for several [random number generators](https://www.nushell.sh/commands/categories/random.html). The integer random generator fit perfectly here. Only this is that the examples are all inclusive ranges
 
-```
+```nushell
 random int 1..10
 ```
 
 First attempt was just to do `random int 1..(10-1)`, but that gave syntax error. The command documentation of [range](https://www.nushell.sh/commands/docs/range.html) is quite sparse. After some digging around, I found a chapter in the nushell book about [ranges](https://www.nushell.sh/book/types_of_data.html#inclusive-and-non-inclusive-ranges) which offered some details
 
-```
+```nushell
 random int 1..<10
 ```
 
@@ -1377,25 +1376,25 @@ It was relatively easy to find out how to handle errors from called external pro
 
 Use exceptions
 
-```
-try { 
+```nushell
+try {
     grep $text $filename
     true
-} catch { 
-    false 
+} catch {
+    false
 }
 ```
 
 Or, better to my preference, check the exit code
 
-```
+```nushell
 let result = grep $text $filename | complete
 return ($result.exit_code == 0)
 ```
 
 That could then be rewritten to
 
-```
+```nushell
 (grep $text $filename | complete | get exit_code) == 0
 ```
 
@@ -1407,7 +1406,7 @@ Update: scripts with `main` is documented [here](https://www.nushell.sh/book/scr
 
 Really weird. I cannot get `main` to work. It is never called. I have put this at the top of my sample file, but it never prints
 
-```
+```nushell
 #!/usr/bin/env nu
 
 def main [input: string] {
@@ -1420,7 +1419,7 @@ The second weird thing is, that if I put the same code in another file, then it 
 
 Figured it out, when I put a print on the top level also
 
-```
+```nushell
 #!/usr/bin/env nu
 
 def main [input: string] {
@@ -1433,7 +1432,7 @@ def main [input: string] {
 
 When run, it gives this output
 
-```
+```nushell
 ❱ ./brazil.nu "And this is my receipt for your receipt"
 
 He's got away from us, Jack
@@ -1443,7 +1442,7 @@ And this is my receipt for your receipt
 
 So it runs all top level code before running main. That explain why it looked like it never worked in my sample code. To test out `main` and not needing to comment out all code, I just put a `return` after `main`.
 
-```
+```nushell
 def main [] {
 }
 return
@@ -1455,10 +1454,10 @@ Hence, the first thing the script will do is to return (and then exit) 🃏
 
 It is very clever how the command arguments can auto-generate a help message. For nushell I then did not have to do this myself - its baked in 🧁🏆
 
-```
+```nushell
 ./sample.nu -h
 Usage:
-  > main {flags} 
+  > main {flags}
 
 Flags:
   --list-dir <String> - Directory to list (default: 'test')
@@ -1468,9 +1467,9 @@ Flags:
 
 Though its a shame that it is listing the command name, and not the script name
 
-```
+```nushell
 Usage:
-  > main {flags} 
+  > main {flags}
 ```
 
 This should have said `sample.nu` instead, as `main` make no sense outside the script. I found no way to change this 🤷‍♀️
@@ -1481,14 +1480,14 @@ I also wished that the description texts were aligned… but thats a nitpick
 
 After getting program arguments working, I wanted to pass in the user specified path to `ls` instead of the hardcoded value.
 
-```
+```diff
 -let file_list = (ls ./test/**/* | where type == file) | get name
 +let file_list = (ls ./$list_dir/**/* | where type == file) | get name
 ```
 
 This do now work
 
-```
+```nushell
 let file_list = (ls ./$list_dir/**/* | where type == file) | get name
                      ─────────┬────────
                               ╰── Pattern, file or folder not found
@@ -1500,7 +1499,7 @@ I was unable to find any combination of `ls`, `glob` `path parse` and would comp
 
 After a lot of trail and error, I finally figured it out using `glob`.
 
-```
+```nushell
 let glob_list = (glob $"($list_dir)/**/*")
 ```
 
@@ -1508,7 +1507,7 @@ I quickly discovered that `glob` returns full path items, instead of relative pa
 
 I eventually found a suggestion to just use the external find command: https://superuser.com/a/1721043. Sadly, falling back to use the external `find` command was also not without its own pains…
 
-```
+```diff
 - let glob_list = (glob $"($list_dir)/**/*")
 - let file_list = $glob_list | where ($it | path type) == file
 +^find test -type f
@@ -1516,7 +1515,7 @@ I eventually found a suggestion to just use the external find command: https://s
 
 Apparently the format returned from the find command, did not sit well with next functionality
 
-```
+```text
 Error:   × Main thread panicked.
   ├─▶ at /Users/brew/Library/Caches/Homebrew/cargo_cache/registry/src/index.crates.io-6f17d22bba15001f/rand-0.8.5/src/rng.rs:134:9
   ╰─▶ cannot sample empty range
@@ -1527,7 +1526,7 @@ Inspecting the output from `^find`, revealed that nushell seem to interpret all 
 
 Tried all `path` and `split` incarnations I could imagine, but all gave me all files as a single entity
 
-```
+```nushell
 ^find test -type f | path parse
 ^find test -type f -print0 | split list '\0'
 ^find test -type f | split list '\n'
@@ -1536,13 +1535,13 @@ Tried all `path` and `split` incarnations I could imagine, but all gave me all f
 
 I was approaching a solution (I think)
 
-```
+```nushell
 ^find $list_dir -type f | complete | get stdout
 ```
 
 But I went for the interweb, and thanx to the [Arch wiki](https://wiki.archlinux.org/title/Nushell#Input_from_external_programs), I finally had the solution
 
-```
+```nushell
 ^find test -type f | lines
 ```
 
@@ -1556,7 +1555,7 @@ The reference page for each command, provide only the simplest examples. For mor
 
 Error messages are really good, and point directly to where the error is, and what is wrong
 
-```
+```text
  69 │     let l = (glob $list_dir | path parse)
     ·              ──┬─
     ·                ╰── value originates from here
@@ -1568,13 +1567,13 @@ Error messages are really good, and point directly to where the error is, and wh
 
 … that is, unless you you assign the output, then you also mute errors ❗
 
-```
+```nushell
 let files = $file_list | where (it | path type) == "File"
 ```
 
 No errors. Lets remove the redirect
 
-```
+```nushell
 $ | where (it | path type) == "File"
 ·                   ─┬
 ·                    ╰── Command `it` not found
@@ -1582,8 +1581,8 @@ $ | where (it | path type) == "File"
   help: Did you mean `bits`?
 ```
 
-  
-  
+
+
 
 # ysh
 
@@ -1597,8 +1596,8 @@ It’s a shame that the oilshell site do not have section anchors, so that when 
 
 I am sure you could write a rocket launcher in Ysh, but I am less confident that it is appropriate for the rare shell script need. It is for the advanced scripting needs
 
-Shell: ✅  
-Approachable for a bash’er: ⭐⭐☆☆☆  
+Shell: ✅
+Approachable for a bash’er: ⭐⭐☆☆☆
 Enjoyment: ⭐☆☆☆☆
 
 ## It’s complicated
@@ -1609,13 +1608,13 @@ There are many things in ysh that makes me think there is a relatively high lear
 
 How to make an array. Simple 👍
 
-```
+```ysh
 var foods = ['ale', 'bean', 'corn']
 ```
 
 How **also** to make an array, if that array _is of strings_
 
-```
+```ysh
 var foods = :| ale bean corn |
 ```
 
@@ -1633,7 +1632,7 @@ I think where it gets complicated, is how to call func’s and especially proc�
 
 Here is an example from the guide… We have a proc `my-cd`. Lets call `my-cd` with **two** arguments
 
-```
+```ysh
 my-cd /tmp {
   echo $PWD
   echo hi
@@ -1642,7 +1641,7 @@ my-cd /tmp {
 
 When we look at the definition of `my-cd`, we notice that it has **four** parameters
 
-```
+```ysh
 proc my-cd (dest; ; ; block) {
   cd $dest (; ; block)
 }
@@ -1650,7 +1649,7 @@ proc my-cd (dest; ; ; block) {
 
 This is because proc’s have four types of parameters. As described in the guide:
 
-```
+```ysh
 proc p (
     w1, w2, ...rest_word;     # word params
     p1, p2, ...rest_pos;      # pos params
@@ -1663,7 +1662,7 @@ proc p (
 
 So you can call the above proc like this
 
-```
+```ysh
 var pos_args = [3, 4]
 var named_args = {foo: 'bar'}
 p /bin /tmp (1, 2, ...pos_args; n1=43, ...named_args; { echo "hi" })
@@ -1681,7 +1680,7 @@ Guess this last thing is just an observation. Ysh have three usage of `...`: - `
 
 It has some of the same flags (`shopt`) like bash to modify runtime behaviour. I never really liked that part of bash. It’s an obtuse feature, but at least Ysh allows to contain it to only just blocks of code
 
-```
+```ysh
 shopt --unset errexit {  # ignore errors
   cp ale /tmp
   cp bean /bin
@@ -1694,7 +1693,7 @@ shopt --unset errexit {  # ignore errors
 
 The developer of ysh has a remarkable [insight](https://www.oilshell.org/release/latest/doc/error-handling.html) in bash error handling and [quirks](https://www.oilshell.org/release/latest/doc/error-handling.html#disabled-errexit-quirk-if-myfunc-pitfall) related to [bash `$?`](https://www.oilshell.org/release/latest/doc/error-handling.html#the-meta-pitfall) error handling. ysh takes a firm stance on failing on every error. It then provide you with options to specifically handle errors
 
-```
+```ysh
 try {
   ls /bad
   grep fail /also_bad
@@ -1710,7 +1709,7 @@ This will exit the `try` block on first error. The `_status` is the ysh equivale
 
 Another example is a comment on how some programs signal usage errors with an exit code other than 0 (success) or 1 (failure), but the shell will just interpret non-zero exit codes as operation error
 
-```
+```ysh
 if grep 'class\(' *.py; then  # grep syntax error, status 2
   echo 'found class('
 else
@@ -1722,7 +1721,7 @@ In practice I think this is fine. For the most part with shell scripting we just
 
 In fact this is such a common situation that ysh have a special [`boolstatus`](https://www.oilshell.org/release/latest/doc/ref/chap-builtin-cmd.html#boolstatus) operator for this
 
-```
+```ysh
 if boolstatus egrep '[0-9]+' myfile {  # may abort
   echo 'found'               # status 0 means found
 } else {
@@ -1740,7 +1739,7 @@ Ysh documentation have [documented](https://www.oilshell.org/release/latest/doc/
 
 Ysh has an [argument parser](https://www.oilshell.org/release/latest/doc/ref/chap-builtin-cmd.html#Args-Parser). The short option is required, otherwise an error is thrown
 
-```
+```ysh
 flag --no-color ('bool', default=false, help='''
    ^~~~
 ./sample.ysh:18: fatal: proc 'flag' wasn't passed word param 'long'
@@ -1748,15 +1747,15 @@ flag --no-color ('bool', default=false, help='''
 
 I could not get string arguments to work on options, so that I could supply `--list-dir=test`. Looking at the ysh source, it appears only to take integer types and bool (unfortunately I cannot link it, as its generated source). Instead I resorted to making the source directory a general argument
 
-```
+```diff
 -./sample.ysh --no-color --list-dir=test
 +./sample.ysh --no-color test
 ```
 
 Now the above workaround is not without is own problems. Apparently there is no way to set arguments as optional; nor to set a default value. This then have the negative consequence that… you can’t get help
 
-```
-❱ ./sample.ysh -h       
+```ysh
+❱ ./sample.ysh -h
         error "Usage Error: Missing required argument $[arg.name]" (status=2)
         ^~~~~
 stdlib/args.ysh:206: fatal: Usage Error: Missing required argument list-dir
@@ -1770,7 +1769,7 @@ Where is the documentation for `case`? Is [this](https://www.oilshell.org/releas
 
 How do I print a dictionary? Only found this example
 
-```
+```ysh
 var person = {name: 'bob', age: 42}
 json write (person)
 ```
@@ -1779,7 +1778,7 @@ json write (person)
 
 How do I compare (boolean) values?
 
-```
+```ysh
  if (options.help == true) {
                   ^~
 ./sample.ysh:48: Use === to be exact, or ~== to convert types
@@ -1787,7 +1786,7 @@ How do I compare (boolean) values?
 
 Oh, use [`===`](https://www.oilshell.org/release/latest/doc/ysh-tour.html#operators) for exact matches.
 
-```
+```ysh
 if (options.help === true) {
 ```
 
@@ -1797,7 +1796,7 @@ Why? 🤔
 
 I did a mistake of calling a function with wrong syntax, but was unaware of it as no complaint was given by the compiler.
 
-```
+```ysh
 func showHelp() {}
 
 call showHelp    # Does nothing?
@@ -1832,7 +1831,7 @@ I keep forgetting that there are two different syntaxes for getting return value
 
 I did not find any builtin way to list files, so figured just to use `find`.
 
-```
+```ysh
 proc get-files (dir) {
     find $dir -type f
 }
@@ -1842,13 +1841,13 @@ var files = $(get-files options.list_dir)
 
 That just gives me one long string with newlines. Putting that into an array type just made an array with one (long) item
 
-```
+```ysh
 var file_list = [ files ]
 ```
 
 I then attempted to use the `readarray/mapfile` function
 
-```
+```ysh
 var file_list = []
 cat $files | mapfile file_list
 ```
@@ -1865,7 +1864,7 @@ I initially attempted to use `find` with `-print0`, but none of the mentions fun
 
 Why do printing of type not work, if not stored in a variable?
 
-```
+```ysh
 var d = { "a": 1, "b": 2 }
 
 echo type(d) #=> error: Space required before (
@@ -1884,13 +1883,13 @@ Converted to `proc` (I don’t like that `;` parameter separation for separating
 
 I passed the color function to the actual printing function. As a `func` I could pass (`colorPrint`) as an argument just fine - but not use it at the receiving function. With `proc` (`print-color`) I cannot figure out how to pass it as a function pointer. Also tried the various unevaluated expressions, but could not make it work
 
-```
+```ysh
 print-category (^(color-print), options.color, extension, files)
 ```
 
 The solution became to be not pass the color function as a function, but instead just call the `color-print` directly
 
-```
+```ysh
 proc print-category (; option_color, extension, files) {
     color-print (option_color, "Extension: ", blue, extension)
 ```
@@ -1899,7 +1898,7 @@ proc print-category (; option_color, extension, files) {
 
 I couldn’t find any random number function, so first thought was that I would just drop in the bash edition. That was of course not the right approach
 
-```
+```ysh
 echo $((RANDOM % upper)) # [0; upper-1]
               ^~~~~~
 ./sample.ysh:118: POSIX shell arithmetic isn't allowed (parse_sh_arith)
@@ -1913,7 +1912,7 @@ Also `RANDOM` is a Bash feature.
 
 Okay, resorting to same solution as used in the Hush solution: use the operating system.
 
-```
+```ysh
 proc get-random-number (; upper) {
     var rand = $( od -vAn -N2 -tu2 < /dev/urandom | tr -d '[:space:]' )
     echo (rand % upper)
@@ -1922,7 +1921,7 @@ proc get-random-number (; upper) {
 
 That didn’t work either
 
-```
+```text
 ./sample.ysh:115: 'echo' got unexpected typed args
       echo (rand % upper)
       ^~~~
@@ -1931,7 +1930,7 @@ That didn’t work either
 
 Putting it in a variable first made it work.
 
-```
+```diff
 proc get-random-number (; upper) {
     var rand = $( od -vAn -N2 -tu2 < /dev/urandom | tr -d '[:space:]' )
 - echo (rand % upper)
@@ -1946,7 +1945,7 @@ Haven’t found the passage in the documentation that discusses this, but I have
 
 First I forgot that only `func` functions can use `return`, not `proc` functions.
 
-```
+```ysh
     (else) { return false }
                     ^~~~~
 ./sample.ysh:138: fatal: 'return' expected a small integer, got 'false'
@@ -1954,7 +1953,7 @@ First I forgot that only `func` functions can use `return`, not `proc` functions
 
 Must admit I am getting a little frustrated with the myriad of things that is different between the two concepts… Okay, switching to just `true` or `false`
 
-```
+```ysh
   (else) { false }
            ^~~~~
 ./sample.ysh:138: errexit PID 17830: command.Simple failed with status 1
@@ -1962,19 +1961,19 @@ Must admit I am getting a little frustrated with the myriad of things that is di
 
 Ah yeah. Naturally 😅 This was a good opportunity to try out [out parameters](https://www.oilshell.org/release/latest/doc/proc-func.html#out-params-myvar-is-of-type-valueplace)
 
-```
+```ysh
 proc search-text-in-file (; file, text, out) {
     (else) { call out->setValue(false) }
 }
 
-var has_search_match 
+var has_search_match
 search-text-in-file (search_file, "monzool", &has_search_match)
 ```
 
 That worked great 🥳
 
-  
-  
+
+
 
 # Ion
 
@@ -1986,8 +1985,8 @@ Ion shell was not what I hoped for. I think this is definitely shell first, shel
 
 The annoyance level was just too high. I stopped early. It is maybe my own fault, and not that of Ion, but it is what it is 🤷‍♀️
 
-Shell: ✅  
-Approachable for a bash’er: ⭐☆☆☆☆  
+Shell: ✅
+Approachable for a bash’er: ⭐☆☆☆☆
 Enjoyment: ☆☆☆☆☆
 
 ## Sample
@@ -2002,7 +2001,7 @@ Then there is the string function [`find`](https://doc.redox-os.org/ion-manual/e
 
 I’m surely blind, but I did struggle a while to understand why `replace` would not give me the replaced result, instead of just returning input unmodified… Then I saw it
 
-```
+```diff
 -list_dir = $replace($arg, "--list-dir=", "")
 +list_dir = $replace($arg "--list-dir=" "")
 ```
@@ -2013,7 +2012,7 @@ Gave no error, but no expected operation either.
 
 This distilled piece of code is invalid
 
-```
+```ion
 let list_dir = "."
 for arg in @args
     if matches $arg "--list-dir"
@@ -2024,7 +2023,7 @@ end
 
 It gives this error
 
-```
+```text
 ion: pipeline execution error: command not found: list_dir
 ```
 
@@ -2032,14 +2031,14 @@ I wish this error was more precise on **where** the error is… And what is the 
 
 Then I tried this
 
-```
+```diff
 -list_dir = $replace($arg, "--list-dir=", "")
 +$list_dir = $replace($arg, "--list-dir=", "")
 ```
 
 This was greeted by this error:
 
-```
+```text
 ion: pipeline execution error: command exec error: Permission denied (os error 13)
 ```
 
@@ -2049,7 +2048,7 @@ Actually I fail to find a single example in the documentation, where a variable 
 
 Update: finally found an example. The [while loop](https://doc.redox-os.org/ion-manual/control/02-loops.html#while-loops) show how to update a variable
 
-```
+```ion
 let value = 0
 while test $value -lt 6
     echo $value
@@ -2063,7 +2062,7 @@ end
 
 I could not at all find any example, on how to return values from a function. I first tried `return`
 
-```
+```ion
 fn sample arg
     let value = $arg
     return $value
@@ -2074,14 +2073,14 @@ let value = sample "ion"
 
 This error’ed on something that perhaps pointed mostly to the call site?
 
-```
+```text
 ion: assignment error: extra values were supplied, and thus ignored. Previous assignment: 'value' = 'sample'
 ion: expansion error: Variable "value" does not exist
 ```
 
 I am left for guessing here.
 
-```
+```diff
 -let value = sample "ion"
 +let value = $(sample "ion")
 ```
@@ -2090,7 +2089,7 @@ This gave no error - but no result either?
 
 Success!
 
-```
+```ion
 fn sample arg
     let value = $arg
     echo $value
@@ -2106,7 +2105,7 @@ In hindsight probably not unexpected; just not what I was hoping for
 
 Hashmap appears to take only the same type, but then everything also seems to be a string
 
-```
+```ion
 fn setup_options options args
     echo @options
 end
@@ -2118,7 +2117,7 @@ for key value in @options
 end
 ```
 
-```
+```text
 ion: assignment error: extra values were supplied, and thus ignored. Previous assignment: 'options' = 'setup_options'
 ion: expansion error: Variable "options" does not exist
 ```
@@ -2127,12 +2126,12 @@ ion: expansion error: Variable "options" does not exist
 
 Error messages are a quite sparse. There is no indication of which line failed, and given more complex code it becomes very difficult to figure out where the actual mistake is
 
-```
+```text
 ion: expansion error: Variable "arg," does not exist
 ```
 
-  
-  
+
+
 
 # Babashka
 
@@ -2156,8 +2155,8 @@ There does not seem to be much information on cross-compiling Java itself. I got
 
 I think it’s a safe assumption, that if I go with babashka, I keep on bash’ing on my embedded platforms. I would also add, that I have the feeling that babashka is made more for _scripting_, than for _shell scripting_ 🤔
 
-  
-  
+
+
 
 # Planck
 
@@ -2167,7 +2166,7 @@ Planck is actually a **ClojureScript**. It is implemented in C and utilizes the 
 
 Its front page has a perfect example
 
-```
+```clojure
 (require '[planck.core :refer [line-seq with-open]]
          '[planck.io :as io]
          '[planck.shell :as shell])
@@ -2181,8 +2180,8 @@ Its front page has a perfect example
 
 The fact that it is written in C, possibly makes it very portable. However being a ClojureScript variant, it builds on top of what I expect is a rather large dependency - the JavaScriptCore library. I could not find any size requirements for JavaScriptCore, but [Sean McPherson](https://www.seanmcp.com/articles/quick-comparison-of-javascript-and-go-executables/) mentions that the [Bun](https://bun.sh/) runtime (which also builds upon JavaScriptCore) weights in at about 98 MB. That is sadly way to much for a small embedded system
 
-  
-  
+
+
 
 # Joker
 
@@ -2190,8 +2189,8 @@ The fact that it is written in C, possibly makes it very portable. However being
 
 Joker is not as such meant for shell scripting, but it has a shell function [sh](https://candid82.github.io/joker/joker.os.html#sh) (and variants) that make it possible to run external programs. Joker is written in Go and thus should be pretty portable. Being a Go project, I had hoped it would have small space requirements. Unpacking the prebuilt packages show a roughly 26 MB binary. That is sadly still to much for a tiny embedded system
 
-  
-  
+
+
 
 # Fennel
 
@@ -2203,8 +2202,8 @@ In my previous [search](https://monzool.net/blog/2017/07/04/a-search-for-bash-sc
 
 I am not confident Lua is a fitting platform for doing heavy lifting in calling external programs
 
-  
-  
+
+
 
 # Janet
 
@@ -2220,8 +2219,8 @@ Janet have been a great experience!
 
 vscode language plugin: https://marketplace.visualstudio.com/items?itemName=janet-lang.vscode-janet, https://marketplace.visualstudio.com/items?itemName=CalebFiggers.vscode-janet-plus-plus vscode formatter plugin: https://marketplace.visualstudio.com/items?itemName=dlyanb.janet-formatter
 
-Repl: ✅  
-Approachable for a bash’er: ⭐⭐⭐☆☆  
+Repl: ✅
+Approachable for a bash’er: ⭐⭐⭐☆☆
 Enjoyment: ⭐⭐⭐⭐☆
 
 ## About Janet
@@ -2240,7 +2239,7 @@ janetsh appear abandonware, but its janet-sh that is of interest anyway.
 
 A hesitation about janet is that these one-man lisp or scheme implementations often die off with time (probably for life and reasons). Janet however, is very alive and kicking
 
-```
+```bash
 ❱ git log --date=format:'%Y' --pretty=format:'%ad' | sort | uniq -c | awk '{print $2 ": " $1}'
 2017: 178
 2018: 550
@@ -2271,7 +2270,7 @@ Install from source is trivial. Following the install guide will also install th
 
 Then to install the janet-sh extension:
 
-```
+```bash
 jpm install https://github.com/andrewchambers/janet-sh.git
 ```
 
@@ -2287,14 +2286,14 @@ Janet have several alternatives to make Janet call external programs In descendi
 
 The contributor library [janet-sh](https://github.com/andrewchambers/janet-sh) gives janet capabilities to operate very much like a shell scripting language. janet-sh adapts an api that bridges unmanaged shell commands with strict Janet types. The means that, for example, files referenced in a command must be given as real Janet file handles
 
-```
+```janet
 (with [f (file/open "monzool.txt")]
   (sh/$ echo "monzool" > ,f))
 ```
 
 Redirecting stdin and stdout streams are interfaced with e.g. the [buffer](https://janet-lang.org/docs/syntax.html) type.
 
-```
+```janet
 (def output @"")
 (sh/run echo "Hello shell" > ,output)
 ```
@@ -2305,7 +2304,7 @@ The janet [os/shell](https://janetdocs.com/os/shell) function give a non-integra
 
 A string is given to `os/shell` and handed verbatim to the standard shell
 
-```
+```janet
 (os/shell "ls > listing.txt")
 (os/shell "top")
 ```
@@ -2318,7 +2317,7 @@ The [os/spawn](https://janet-lang.org/docs/process_management/spawn.html) comman
 
 Just for good manners, and to smoke test the installation, I tested out the janet-sh [frontpage example](https://github.com/andrewchambers/janet-sh?tab=readme-ov-file#quick-examples)…
 
-```
+```janet
 (import sh)
 
 # raise an error on failure.
@@ -2340,14 +2339,14 @@ Just for good manners, and to smoke test the installation, I tested out the jane
   [0 0] :ok)
 ```
 
-```
+```text
 cool!
 ./janet-sh_example.janet:15:1: compile error: unknown symbol path
 ```
 
 Ah shoot. A runtime error on `path`. I have infinitesimal lisp/clojure experience, but I managed to make the example run with few modifications 😅
 
-```
+```diff
 -(sh/$< echo "hello world!")
 -"hello world!\n"
 +(def result (sh/$< echo "hello world!"))
@@ -2359,13 +2358,13 @@ Ah shoot. A runtime error on `path`. I have infinitesimal lisp/clojure experienc
 
 This worked fine. I just needed to put some data in _foo.txt_ to make the example actually do all it was meant to. Then it got strange. I added this
 
-```
+```janet
 (sh/$ echo "Janet" > ,path)
 ```
 
 and got a stack trace in the terminal
 
-```
+```text
 error: unsupported redirect :> :string
   in thunk [./janet-sh_example.janet] (tail call) on line 16, column 1
 ```
@@ -2374,20 +2373,20 @@ How do I make it accept anything with `>`?
 
 I found an example from the janet-sh [test suite](https://github.com/andrewchambers/janet-sh/blob/master/test/sh.janet)
 
-```
+```janet
 (sh/$ echo hello > ,out-buf)
 ```
 
 Why do my addition not work, if this works? 🤔 This made me a little suspicious, so I tried running the test suite
 
-```
+```text
 error: assert failure in (deep= @"cba" out-buf)
   in thunk [./test.janet] (tail call) on line 29, column 1
 ```
 
 I commented out as much as possible to narrow it down, and the test ran without complaining. Ohhh, its using a [buffer](https://janet-lang.org/docs/syntax.html)!
 
-```
+```janet
 (def out-buf @"")
 (sh/$ echo hello > ,out-buf)
 (assert (deep= out-buf @"hello\n"))
@@ -2395,7 +2394,7 @@ I commented out as much as possible to narrow it down, and the test ran without 
 
 I found a [blog post](https://acha.ninja/blog/dsl_for_shell_scripting/) on janet-sh by Andrew Chambers. That also had a redirect to buffer example. That made me reflect at bit. `unsupported redirect :> :string` - okay Einstein, the compiler is telling you that a string won’t work. A buffer works, so I figured a file would probably also work 🤞
 
-```
+```janet
 (def f (file/open "foo.txt" :w))
 (sh/$ echo "monzool" > ,f)
 (file/close f)
@@ -2421,7 +2420,7 @@ Okay, good that I have the janet-sh package. Classic `find` it is then.
 
 Btw. Wonder if this is just the printing that goes wrong, but the utf-8 filenames do not pretty print when using the os functions. The shell edition prints fine 🤔
 
-```
+```janet
 (os/dir "test")
 @["\xF0\x9F\x84\xBC\xF0\x9F\x84\xBE\xF0\x9F\x84\xBD\xF0\x9F\x85\x89\xF0\x9F\x84\xBE\xF0\x9F\x84\xBE\xF0\x9F\x84\xBB.net"
 
@@ -2433,7 +2432,7 @@ test/🄼🄾🄽🅉🄾🄾🄻.net
 
 Like the other language samples, I had defined a `main` and tried to call it, but I could not figure out have to call it
 
-```
+```text
 compile error: <function main> expects at least 3 arguments, got 0
 ```
 
@@ -2447,7 +2446,7 @@ There is a community library [argparse](https://github.com/janet-lang/argparse) 
 
 The spork library have a [path](https://janet-lang.org/api/spork/path.html) library for various path manipulations. I had intended to use `path/ext`. It has the description _“Get the file extension for a path.”_, but the result is wrong
 
-```
+```janet
 (spork/path/ext "file.ext")
 ".ext"
 ```
@@ -2456,7 +2455,7 @@ I would argue that _“ext”_ is the extension here, and _“.”_ is the exten
 
 The function to get the path delimiter also returns unexpected values
 
-```
+```janet
 (print spork/path/delim)
 :
 ```
@@ -2469,7 +2468,7 @@ I ended up dropping spork/path.
 
 I spent a bit of time with the [threading form](https://janet-lang.org/api/misc.html#-%3E) to do splitting. Common knowledge I supposed, but fun enough to play around with 😄
 
-```
+```janet
 repl:1:> (string/split "." "file.ext")
 @["file" "ext"]
 
@@ -2488,7 +2487,7 @@ It took a bit to figure out how to check if a key is present in a table. Neither
 
 My random function always return 3?
 
-```
+```janet
 (defn get-random-number [max]
   (->> (math/random)
        (* max)
@@ -2500,7 +2499,7 @@ My random function always return 3?
 
 I then tried [math/rng-int](https://janet-lang.org/api/math.html#math/rng-int)
 
-```
+```janet
 repl:113:> (math/rng-int (math/rng) 8)
 2
 repl:114:> (math/rng-int (math/rng) 8)
@@ -2511,7 +2510,7 @@ repl:115:> (math/rng-int (math/rng) 8)
 
 Surely a seed is needed. There was no community example on how to use the random functions, so I found a [unit-test](https://github.com/janet-lang/janet/blob/master/test/suite-math.janet) to model from
 
-```
+```janet
 (defn get-random-number [max]
   (let [seed (math/rng "monzool")
         engine (math/rng (:int seed))]
@@ -2527,7 +2526,7 @@ repl:164:> (get-random-number 8)
 
 Okay, this is probably a global seed function then
 
-```
+```janet
 (defn get-random-number [max]
   (let [seed (math/rng "monzool")
         engine (math/rng (:int seed))]
@@ -2551,21 +2550,21 @@ I struggled a bit with getting some shell expressions to work with janet-sh
 
 To get a random number from the operating system, I reused a command expression to read from `/dev/urandom`
 
-```
+```janet
 repl:3:> (sh/run od -vAn -N2 -tu2 < /dev/urandom | tr -d '[:space:]')
 repl:3:60: parse error: mismatched delimiter ),  opened at line 15, column 59
 ```
 
 It was less that obvious to me, what the error was. I simplified the command, just to get different error
 
-```
+```janet
 repl:4:> (sh/$ od -vAn -N2 -tu2 < /dev/urandom)
 repl:4: error: :dup2 value must be a file, got /dev/urandom
 ```
 
 That was easy solvable
 
-```
+```janet
 repl:5:> (def f (file/open "/dev/random" :r))
 repl:6:> (sh/$ od -vAn -N2 -tu2 < ,f)
 ```
@@ -2574,7 +2573,7 @@ That worked. By elimination, that would mean that the `tr` command was the issue
 
 “_Janet’s `backtick` -quoted strings are a really nice way to sidestep shell quoting problems._”
 
-```
+```janet
 repl:14:> (sh/run od -vAn -N2 -tu2 < ,f | tr -d `[:space:]`)
 33720
 ```
@@ -2585,7 +2584,7 @@ repl:14:> (sh/run od -vAn -N2 -tu2 < ,f | tr -d `[:space:]`)
 
 Captured stdout from the shell arrives in a buffer. This I attempted to convert to an integer. The functions I could find that looked like useful for the conversion was `int/u64`. Before this I had to convert the buffer to a string. I ended up with this
 
-```
+```janet
 (def output @"")
 (sh/run od -vAn -N2 -tu2 < ,f | tr -d `[:space:]` > ,output)
 (let [random-number (->> output
@@ -2596,7 +2595,7 @@ Captured stdout from the shell arrives in a buffer. This I attempted to convert 
 
 Then I found a cook-book [PR](https://github.com/MikeBeller/janet-cookbook) which showed some better tools.
 
-```
+```diff
 -(let [random-number (->> output
 - (string/split "\0")
 - (first)
@@ -2611,7 +2610,7 @@ Then I found a cook-book [PR](https://github.com/MikeBeller/janet-cookbook) whic
 
 I found no dedicated color printing function, but the jpm program (the janet package manager) do have a helper module [`shutil`](https://janet-lang.org/api/jpm/shutil.html) that provides a `color` function. Sadly, as many other modules in janet, `shutil` is largely undocumented, and I could not get it to generate working color commands
 
-```
+```janet
 repl:41:> (import jpm/shutil)
 
 repl:42:> (shutil/color :blue "monzool")
@@ -2626,8 +2625,8 @@ repl:45:> (shutil/color "\e[33m" "monzool")
 
 * * *
 
-  
-  
+
+
 
 # Epiloge
 
@@ -2641,30 +2640,30 @@ For the shells, the stdin/stdout is a fundamental way of transporting data betwe
 
 How enjoyable was the experience. This is a combination of how good the documentation is and the “ergonomics” of the language. Enjoyment does not correlate with how much the language is similar to Bash, and thus how familiar the experience was, but more if the experience was fun.
 
-bash: ⭐⭐☆☆☆  
-elvis: ⭐☆☆☆☆  
-murex: ⭐☆☆☆☆  
-hush: ⭐⭐⭐⭐☆  
-koi: ⭐⭐⭐☆☆  
-abs: ⭐⭐⭐☆☆  
-nushell: ⭐⭐⭐⭐☆  
-ysh: ⭐☆☆☆☆  
-ion: ☆☆☆☆☆  
+bash: ⭐⭐☆☆☆
+elvis: ⭐☆☆☆☆
+murex: ⭐☆☆☆☆
+hush: ⭐⭐⭐⭐☆
+koi: ⭐⭐⭐☆☆
+abs: ⭐⭐⭐☆☆
+nushell: ⭐⭐⭐⭐☆
+ysh: ⭐☆☆☆☆
+ion: ☆☆☆☆☆
 janet: ⭐⭐⭐⭐☆
 
 ## Ease of adoption
 
 If you know bash, how easy is it to pick up the language
 
-bash: ⭐⭐⭐☆☆ (no one really knows bash)  
-elvis: ⭐☆☆☆☆  
-murex: ⭐☆☆☆☆  
-hush: ⭐⭐⭐⭐⭐  
-koi: ⭐⭐⭐⭐☆  
-abs: ⭐⭐⭐⭐☆  
-nushell: ⭐☆☆☆☆  
-ion: ⭐☆☆☆☆  
-ysh: ⭐⭐☆☆☆  
+bash: ⭐⭐⭐☆☆ (no one really knows bash)
+elvis: ⭐☆☆☆☆
+murex: ⭐☆☆☆☆
+hush: ⭐⭐⭐⭐⭐
+koi: ⭐⭐⭐⭐☆
+abs: ⭐⭐⭐⭐☆
+nushell: ⭐☆☆☆☆
+ion: ⭐☆☆☆☆
+ysh: ⭐⭐☆☆☆
 janet: ⭐⭐⭐☆☆
 
 ## Production ready
@@ -2681,8 +2680,8 @@ As the word goes _“It is tough to make predictions, especially about the futur
 
 * * *
 
-  
-  
+
+
 
 # Conclusion
 
@@ -2714,8 +2713,8 @@ Perhaps it is time to accept that small embedded systems are stuck on bash, and 
 
 * * *
 
-  
-  
+
+
 
 # Addendum
 
@@ -2749,8 +2748,8 @@ Plumbum does not attempt to be a shell alternative like xonsh, but instead focus
 
 * * *
 
-  
-  
+
+
 
 # Take 1
 
@@ -2760,7 +2759,7 @@ I will just shortly address the results of my previous hunt for an alternative t
 
 I pitched this at work, but eventually every one agreed that this was too high a mountain to climb. None of us had scheme experience, and the deadlines was too pressured for us to learn something that was that much different from our C/C++ and bash experience. I mentioned already then, that scsh development seems to have stopped. That appears still to be true
 
-```
+```bash
 ❱ git log --date=format:'%Y' --pretty=format:'%ad' | sort | uniq -c | awk '{print $2 ": " $1}'
 2009: 123
 2010: 44
@@ -2778,7 +2777,7 @@ I pitched this at work, but eventually every one agreed that this was too high a
 
 luash appeared abandoned then, so we eventually decided not to proceed. The situation appears to be the same still
 
-```
+```bash
 ❱ git log --date=format:'%Y' --pretty=format:'%ad' | sort | uniq -c | awk '{print $2 ": " $1}'
 2015: 23
 2016: 1
@@ -2798,7 +2797,7 @@ What I remember as my takeaways from the experience in 2017 or 2018 of mruby was
 
 I mentioned some bugs and issues… it was a long time ago, and since then the mruby development has only gained more traction. I have nothing but confidence that mruby is working great today. A lot of focus and effort have been channelled into mruby development since then
 
-```
+```bash
 ❱ git log --date=format:'%Y' --pretty=format:'%ad' | sort | uniq -c | awk '{print $2 ": " $1}'
 2012: 1933
 2013: 2279

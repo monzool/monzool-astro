@@ -96,7 +96,7 @@ Ubuntu» sudo apt install et
 
 Connecting to the server is as simple as basic _ssh_.
 
-```
+```bash
 Ubuntu» et monzool@1.1.1.1
 monzool@1.1.1.1's password: 
 
@@ -107,7 +107,7 @@ Manjaro»
 
 If having port-forwarding on the ssh port, this needs to be specified.
 
-```
+```bash
 Ubuntu» et --ssh-option 'Port 2222' monzool@1.1.1.1
 ```
 
@@ -115,7 +115,7 @@ Ubuntu» et --ssh-option 'Port 2222' monzool@1.1.1.1
 
 Note that the _et_ port itself also can be moved, so make sure not to mix up the _ssh_ and _et_ ports, as this causes failure 😉
 
-```
+```bash
 Ubuntu» et monzool@1.1.1.1:2222                    
 monzool@1.1.1.1's password: 
 [1]    1458478 IOT instruction (core dumped)  et monzool@1.1.1.1:2222

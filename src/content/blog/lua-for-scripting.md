@@ -14,7 +14,7 @@ Currently I am using Lua for scripting and the [Net-Snmp](http://net-snmp.source
 
 Here follows a **simplified** example of my normal Lua scripts. First step is to define the OID's to use. I collect these in a file called `Mibs.lua`
 
-```
+```lua
 #!lua
 --[[
       Net-Snmp datatypes:
@@ -33,7 +33,7 @@ This file defines to tables containing each a OID prefix and the datatype.
 
 Invoking the SNMP calls to perform the MIB manipulations is handled by a Lua class that wraps the Net-Snmp command line tools. This class is located in a file `Snmp.lua`
 
-```
+```lua
 #!lua
 --[[
       SNMP by using Net-SNMP executeables
@@ -114,7 +114,7 @@ The table CSnmp defines a function `new` that provides object allocation and con
 
 The files created so far can be reused by all configuration scripts. An example of a configuration script could be to request the (configured) location of the device, and the set a new location.
 
-```
+```lua
 #!lua
 
 -- Snmp.lua provides SNMP GET/SET functionality.
@@ -136,7 +136,7 @@ snmp:Get(Mib_sysLocation[1] .. ".0")
 
 Running the script produces the following output:
 
-```
+```text
 >sys.lua
   GET Location:
   iso.3.6.1.2.1.1.6.0 = STRING: "Moon"

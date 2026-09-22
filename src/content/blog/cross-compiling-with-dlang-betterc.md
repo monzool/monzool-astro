@@ -12,7 +12,7 @@ categories:
 
 Not having to deal with the runtime, makes cross-compiling a betterc a breeze. It should be noted that there are more incarnations of the D compiler. The default compiler dmd does not support cross-compiling but the gcc based ldc does.
 
-```
+```d
 import core.stdc.stdio;
 
 extern(C):
@@ -31,7 +31,7 @@ int main()
 
 ```
 
-```
+```bash
 PATH=/opt/armv5-eabi--musl--stable-2018.11-1/bin:${PATH} \
 CC=/opt/armv5-eabi--musl--stable-2018.11-1/bin/arm-linux-gcc \
 LD=/opt/armv5-eabi--musl--stable-2018.11-1/bin/arm-linux-ld \
@@ -39,7 +39,7 @@ ldc2 -mtriple=arm-linux -gcc=arm-linux-gcc --linker='' --static -betterC hello_m
 
 ```
 
-```
+```bash
 » file hello_math
 hello: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, with debug_info, not stripped
 

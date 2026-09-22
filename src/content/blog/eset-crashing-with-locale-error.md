@@ -12,7 +12,7 @@ categories:
 
 The syslog was filled with “endless” entries of runtime errors due to failure in locale initialization:
 
-```
+```bash
 root@L5:~# tail -f /var/log/syslog
 2025-04-22T06:46:16.404457+02:00 L5 egui[9000]: Locale not supported by C library.#012#011Using the fallback 'C' locale.
 2025-04-22T06:46:16.901839+02:00 L5 eset.eea[9000]: terminate called after throwing an instance of 'std::runtime_error'
@@ -28,26 +28,26 @@ I have yet to find a good way to **discover** these kind of issues with `journal
 
 Then having already discovered a suspicious message, does not always make it straight forward to investigate further.
 
-```
+```bash
 ❱ journalctl --since "2 days ago" -g 'locale\:\:facet\:\:_S_create_c_locale'
 Apr 22 06:41:59 L5 eset.eea[4204]:   what():  locale::facet::_S_create_c_locale name not valid
 ```
 
 That entry told us that it originated from `eset.eee`, but as that is not part of the `MESSAGE`, grepping for it
 
-```
+```bash
 ❱ journalctl --since "2 days ago" -g 'eset.eea'
 ```
 
 will yield no result. Instead we can attempt to filter on the script name
 
-```
+```bash
 ❱ journalctl --since "2 days ago" _COMM=eset.eea
 ```
 
 which also yields no results. Then using the syslog identifier finally gives a result
 
-```
+```bash
 ❱ journalctl --since "2 days ago" SYSLOG_IDENTIFIER=eset.eea
 Apr 22 06:41:59 L5 eset.eea[4204]: terminate called after throwing an instance of 'std::runtime_error'
 Apr 22 06:41:59 L5 eset.eea[4204]:   what():  locale::facet::_S_create_c_locale name not valid
@@ -56,14 +56,14 @@ Apr 22 06:42:00 L5 eset.eea[4139]: Aborted (core dumped)
 
 Ignoring the rotated syslog files, then there is a lot of entries of that error
 
-```
+```bash
 root@L5:~# grep "locale::facet::_S_create_c_locale" /var/log/syslog | wc -l
 2750
 ```
 
 The current syslog file ranges 13 days of errors (using `sed` to print only first and last hits)
 
-```
+```bash
 root@L5:~# grep "locale::facet::_S_create_c_locale" /var/log/syslog | sed -n '1p;$p'
 2025-04-10T06:44:53.808725+02:00 L5 eset.eea[1227413]:   what():  locale::facet::_S_create_c_locale name not valid
 2025-04-22T09:51:36.491258+02:00 L5 eset.eea[42077]:   what():  locale::facet::_S_create_c_locale name not valid
@@ -71,7 +71,7 @@ root@L5:~# grep "locale::facet::_S_create_c_locale" /var/log/syslog | sed -n '1p
 
 The error let me to check the core dump registry
 
-```
+```bash
 root@L5:~# coredumpctl | head
 TIME                             PID  UID  GID SIG     COREFILE EXE                                                                                                              SIZE
 Mon 2025-03-17 07:58:38 CET  4065929 1000 1000 SIGABRT missing  /opt/eset/eea/lib/egui
@@ -87,7 +87,7 @@ Mon 2025-03-17 08:06:47 CET  4088606 1000 1000 SIGABRT missing  /opt/eset/eea/li
 
 Well. It sure crashes a lot 😅
 
-```
+```bash
 root@L5:~# ls -1 /var/lib/systemd/coredump/*egui* | wc -l
 1728
 
@@ -97,7 +97,7 @@ root@L5:~# du -chs /var/lib/systemd/coredump/*egui*
 
 Looking more closely to the core dumps, confirms that the error appear to be some locale related stuff on the main thread of the program egui.
 
-```
+```bash
 root@L5:~# coredumpctl info /opt/eset/eea/lib/egui
        Message: Process 4067264 (egui) of user 1000 dumped core.
 
@@ -138,7 +138,7 @@ root@L5:~# coredumpctl info /opt/eset/eea/lib/egui
 
 I checked my locale settings, but it seemed fine
 
-```
+```bash
 root@L5:~# locale
 LANG=C.UTF-8
 LANGUAGE=en_GB
@@ -159,7 +159,7 @@ LC_ALL=
 
 I then thought to check the environment of the ESET docker service.
 
-```
+```bash
 root@L5:~# systemctl show eea.service --property=Environment
 Environment=
 ```
@@ -168,7 +168,7 @@ I’m guessing here that the ESET eea.service starts very early and doesn’t ge
 
 Lets try a workaround this using systemd and poke the service configuration to specify those locale settings specifically for ESET
 
-```
+```bash
 root@L5:~# systemctl status eea.service
 ● eea.service - ESET Endpoint Antivirus
      Loaded: loaded (/usr/lib/systemd/system/eea.service; enabled; preset: enabled)
@@ -177,7 +177,7 @@ root@L5:~# systemctl status eea.service
 
 Patching _/usr/lib/systemd/system/eea.service_
 
-```
+```diff
 [Unit]
 Description=ESET Endpoint Antivirus
 After=network.target
@@ -202,21 +202,21 @@ OOMScoreAdjust=-800
 
 Reload
 
-```
+```bash
 systemctl daemon-reload
 systemctl restart eea.service
 ```
 
 Verifying it is set
 
-```
+```bash
 root@L5:~# systemctl show eea.service --property=Environment
 Environment=LANG=C.UTF-8 LC_ALL=C.UTF-8
 ```
 
 Still crashes
 
-```
+```bash
 root@L5:~# tail -f /var/log/syslog
 2025-04-22T09:02:01.799953+02:00 L5 cron[1719]: (*system*eset-eea-vapm) RELOAD (/etc/cron.d/eset-eea-vapm)
 2025-04-22T09:02:15.027347+02:00 L5 egui[25254]: Locale not supported by C library.#012#011Using the fallback 'C' locale.
@@ -226,7 +226,7 @@ root@L5:~# tail -f /var/log/syslog
 
 Hmm. What starts what?
 
-```
+```bash
 root@L5:~# ps -eo pid,ppid,comm,cmd | grep eset
    1295       2 nvidia-modeset/ [nvidia-modeset/kthread_q]
    1296       2 nvidia-modeset/ [nvidia-modeset/deferred_close_kthread_q]
@@ -255,7 +255,7 @@ There is a ESET daemon called `startd` but it doesn’t appear to be parent of t
 
 Oh wait, that script is started from the service from before
 
-```
+```bash
 root@L5:~# cat /usr/lib/systemd/system/eea.service
 [Service]
 Environment=LANG=C.UTF-8
@@ -268,7 +268,7 @@ ExecStartPost=-/opt/eset/eea/lib/install_scripts/launch_gui_all_users.sh
 
 The `ExecStartPost` script is starting the crashing egui
 
-```
+```bash
 root@L5:~# grep egui /opt/eset/eea/lib/install_scripts/*.sh
 /opt/eset/eea/lib/install_scripts/egui_autorestart.sh:    /opt/eset/eea/lib/egui "$@" &
 ```
@@ -279,14 +279,14 @@ Nope, it just calls `/opt/eset/eea/lib/egui "$@" &`
 
 Hmm, who is actually starting _egui\_autorestart.sh_ then? Taking a closer look at the `ps` output, reveal it parent as pid 3845
 
-```
+```bash
 root@L5:~# ps -eo pid,comm,cmd | grep 3845
    3845 systemd         /usr/lib/systemd/systemd --user
 ```
 
 Enlightening. So the gui is started by the _systemd user instance_. I would have expected the system user instance to inherited the environment variables set in the service file, but that might not be the case?
 
-```
+```bash
 ❱ systemctl --user show-environment | grep -E '(LC_|LANG)'
 LANG=en_GB.UTF-8
 LANGUAGE=en_GB
@@ -308,7 +308,7 @@ Strange output. Some values look fine, but some are missing and others have diff
 
 My system setting has danish time setting
 
-```
+```bash
 ❱ localectl | grep LC_TIME
 LC_TIME=en_DK.utf8
 ```
@@ -335,7 +335,7 @@ I decided instead to do a [KISS](https://en.wikipedia.org/wiki/Laziness) solutio
 
 _/opt/eset/eea/lib/install\_scripts/egui\_autorestart.sh_
 
-```
+```diff
 +   export LANG=C.UTF-8
 +   export LC_ALL=C.UTF-8
     /opt/eset/eea/lib/egui "$@" &
@@ -343,12 +343,12 @@ _/opt/eset/eea/lib/install\_scripts/egui\_autorestart.sh_
 
 Then restart
 
-```
+```bash
 root@L5:~# systemctl daemon-reload
 root@L5:~# systemctl restart eea.service
 ```
 
-```
+```bash
 root@L5:~# tail -f /var/log/syslog
 
 2025-04-22T09:51:42.836121+02:00 L5 systemd[1]: eea_upgrade.service - ESET Endpoint Antivirus upgrade was skipped because of an unmet condition check (ConditionPathExists=/var/opt/eset/eea/updated/app/eea.bin).

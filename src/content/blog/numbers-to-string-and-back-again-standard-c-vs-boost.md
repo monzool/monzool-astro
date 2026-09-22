@@ -18,7 +18,7 @@ The example below takes a few more lines that doing e.g. a `atoi` or `snprintf` 
 
 The main function is extracted here, just not to obfuscate the picture of the actual converting. Note that `stringstream` is defined in the header.
 
-```
+```cpp
 #include 
 #include   // stringstream
 
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
 The function below handles conversion from strings to integers. First a simple conversion is done, then followed by an example of testing whether the conversion operation was a success. Last is shown how to enable exceptions on conversion errors.
 
-```
+```cpp
 void Std_StringToInteger()
 {
   std::string str = "1976";
@@ -82,7 +82,7 @@ As the naming `stringstream` indicates, input and output is done by streaming me
 
 Last function is for converting from numbers to strings.
 
-```
+```cpp
 void Std_IntegerToString()
 {
   int val = 1976;
@@ -102,7 +102,7 @@ To put it simple: when dealing with libraries for converting between numbers and
 
 The conversion features of Boost is located in the [`lexical_cast`](http://www.boost.org/doc/libs/1_35_0/libs/conversion/lexical_cast.htm) library and is embedded by including the `lexical_cast.hpp` file (most Boost libraries are implemented in header files and can be embedded by including the appropriate hpp file.).
 
-```
+```cpp
 #include 
 #include 
 
@@ -124,7 +124,7 @@ Instead of using streaming functionality, Boost has chosen a much more obvious c
 
 The `lexical_cast` template function makes converting from string to integer trivial. The example below also shows how to handle conversion errors by exception handling.
 
-```
+```cpp
 void Boost_StringToInteger()
 {
   std::string str = "1976";
@@ -150,7 +150,7 @@ void Boost_StringToInteger()
 
 Converting the other way from integer to string is just as trivial.
 
-```
+```cpp
 void Boost_IntegerToString()
 {
   int val = 1976;

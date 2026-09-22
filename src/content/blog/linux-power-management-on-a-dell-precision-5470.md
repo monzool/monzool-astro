@@ -11,7 +11,7 @@ categories:
 
 **I STARTED A** new job and thus was handed a new laptop, a Dell 5470. It came with Windows (not familiar with Windows versions, but looked differently that last time a had a Windows booted), so I quickly installed Linux on it. On first day commuting home, I realized the laptop would burn hot in my bag, even though I put it in sleep mode. And then when checking at home, it had already consumed most of the battery charge.
 
-```
+```bash
 » cat /sys/class/power_supply/BAT*/capacity
 25
 ```
@@ -25,7 +25,7 @@ System modes \*used\* to be represented in the states S0 to S5, where S0 is on s
 
 Now laptop vendors are in the process of shifting power management to ["Modern standby"](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby). This is a new power management system proposed by Microsoft to allow an experience similar to mobile phones. So if power _on_ is state `S0`, then this new power modern power state is `S0 low power idle`. The linux kernel calls this state `s2idle`.
 
-```
+```bash
 » cat /sys/power/mem_sleep
 [s2idle]
 ```
@@ -34,7 +34,7 @@ Now laptop vendors are in the process of shifting power management to ["Modern s
 
 Systems implementing modern standby typically do not implement the old `S1` - `S3` power states. Attempting to set any other state than `s2idle` would cause an error
 
-```
+```bash
 » echo deep > /sys/power/mem_sleep
 -bash: echo: write error: Invalid argument
 
@@ -53,7 +53,7 @@ Some people had luck of adding `mem_sleep_default=deep` as a [kernel option](htt
 
 Even though I was running a late kernel, I was not able to get anything to work.
 
-```
+```bash
 » uname
 Linux L5 6.2.0-20-generic #20-Ubuntu
 ```
@@ -70,13 +70,13 @@ So I changed that in the UEFI settings. The EUFI gave a big warning message clai
 
 Lo and behold, memory suspend suddenly worked when applying the power-state manually
 
-```
+```bash
 echo mem > /sys/power/state
 ```
 
 To make the experience a little bit better, I hooked a script to the lid close event, that would then apply the power-state. The resulting structure looks like this:
 
-```
+```bash
 » find /etc/acpi/
 /etc/acpi/
 /etc/acpi/lid.sh
@@ -86,7 +86,7 @@ To make the experience a little bit better, I hooked a script to the lid close e
 
 First registers a script to be called on ACPI events.
 
-```
+```bash
 cat << 'EOF' > /etc/acpi/events/lm_lid
 event=button/lid.*
 action=/etc/acpi/lid.sh
@@ -95,7 +95,7 @@ EOF
 
 Then the event handling script itself
 
-```
+```bash
 cat << 'EOF' > /etc/acpi/lid.sh
 #!/bin/bash
 
@@ -109,13 +109,13 @@ EOF
 
 Set execution bit
 
-```
+```bash
 » chmod +x /etc/acpi/lid.sh
 ```
 
 Restart the acpid daemon to make the scripts take effect
 
-```
+```bash
 systemctl restart acpid.service
 ```
 
@@ -127,7 +127,7 @@ More details on ACPI events can be found here: https://linuxconfig.org/how-to-ha
 
 An interesting command for getting battery details is `upower`
 
-```
+```bash
 » upower -i /org/freedesktop/UPower/devices/battery_BAT0
   native-path:          BAT0
   vendor:               BYD

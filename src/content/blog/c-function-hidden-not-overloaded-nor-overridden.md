@@ -14,7 +14,7 @@ When having an existing code base the need sometimes comes up, that an often use
 
 The example below is a snippet from a boat class that provides a member for setting the speed of the boat. Positive values indicates forward sailing while negative values is backward sailing. Given the task of producing a super fast race boat a new class `FastBoat` is derived so that unrealistically high speeds can be executed.
 
-```
+```cpp
 class Boat
 {
   public:
@@ -56,7 +56,7 @@ Glancing at the code one might be convinced that all is fine an dandy. Setting u
 
 This, however, is the output produced by the example code:
 
-```
+```text
 Speed of fast boat: 22
 Speed of fast boat: 4294967293
 
@@ -64,7 +64,7 @@ Speed of fast boat: 4294967293
 
 Wanting to reverse the boat at mere 3 knots, the boat is sent forward at cartoon-fast speed. So what just happened?. Well, the `Boat::Speed` function was not called, and instead the `BackwardKnots` value was casted to fit the `FastBoat::Speed` function. This is because **function overload resolution does not cross inheritance boundaries** - that is, not by default. For the above code to work as intended, the hidden function from the base class must be brought into scope.
 
-```
+```cpp
 class FastBoat: public Boat
 {
   public:
@@ -80,7 +80,7 @@ class FastBoat: public Boat
 
 Daring another attempt to test the program, the result now is as intended.
 
-```
+```text
 Speed of fast boat: 22
 Speed of fast boat: -3
 

@@ -10,7 +10,7 @@ categories:
 
 **THE SERIAL PORT** on my Fedora 15 install, mysteriously refused to be accessed. I discovered that when inserting a USB-to-Serial device, GNU screen would refuse to access the created device `/dev/ttyUSB0`.
 
-```
+```bash
 » screen /dev/ttyUSB0 115200
 [screen is terminating]
 
@@ -18,7 +18,7 @@ categories:
 
 Since I could use screen for serial access as root, and because the newly installed Fedora did have some hiccups in adding my user (the `/home/monzool` directory already existed from a previous Ubuntu install), I first checked group permissions, but they seemed fine for this situation.
 
-```
+```bash
 » ll /dev/ttyUSB0
 crw-rw----. 1 root dialout 188,  0 Jun  6 08:27 /dev/ttyUSB0
 
@@ -29,7 +29,7 @@ monzool tty wheel uucp dialout tcpdump screen vboxusers
 
 Screen didn't offer much indication of the problem, but using strace I could see that some of the last things checked for permissions where `/var/run/screen`. I then removed that directory and recreated the directory setup by starting screen with sudo.
 
-```
+```bash
 » ll /var/run/screen
 drwxrwxr-x. 4 root    root    80 Jun  6 08:27 screen
 » rm -rf /var/run/screen
@@ -43,7 +43,7 @@ This helped nothing! `:-(`
 
 I then tried minicom, which was more informative about the problem
 
-```
+```bash
 » minicom
 minicom: cannot open /dev/ttyUSB0: Device or resource busy
 
@@ -61,7 +61,7 @@ Now `gpsd` is for handling GPS devices, but it made no sense to trigger this dae
 
 Knowing what was causing the hazzle, I found this bug rapport [https://bugzilla.redhat.com/show\_bug.cgi?id=663124](https://bugzilla.redhat.com/show_bug.cgi?id=663124). In it, it is proposed to set `USBAUTO=no` in `/etc/sysconfig/gpsd`.
 
-```
+```bash
 » echo "USBAUTO=no" >> /etc/sysconfig/gpsd
 
 ```

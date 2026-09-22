@@ -16,7 +16,7 @@ The examples shown here are not real content hiding measures, but at first glanc
 
 Suppose we have a function that rolls the dice and if you hit a three, the scripts exits.
 
-```
+```bash
 function roll_dice() {
     local sample_space=6
     local number=${RANDOM}
@@ -37,14 +37,14 @@ For this first example _base64_ is used. It has the nice properties of convertin
 
 If the above is saved in a script `roll_dice.txt`, the following command will base-64 encode it
 
-```
+```bash
 cat roll_dice.txt | base64
 
 ```
 
 As output from this command is printed the base64 encoded data:
 
-```
+```text
 ZnVuY3Rpb24gcm9sbF9kaWNlKCkgewogICAgbG9jYWwgc2FtcGxlX3NwYWNlPTYKICAgIGxvY2Fs
 IG51bWJlcj0ke1JBTkRPTX0KICAgIGxldCAibnVtYmVyICU9ICR7c2FtcGxlX3NwYWNlfSIKCiAg
 ICBpZiBbWyAkbnVtYmVyID09IDMgXV07IHRoZW4KICAgICAgICBlY2hvCiAgICAgICAgZWNobyAi
@@ -57,7 +57,7 @@ The data can now be used in a script and evaluated. To descramble the data back 
 
 This makes it nothing but data though, so to have it evaluated (executed), the `eval` command is used to runtime evaluate the code loaded to the `dice` variable.
 
-```
+```bash
 #!/bin/bash
 
 dice=$(base64 -d <<'EOF'
@@ -78,7 +78,7 @@ There are several reasons why this is more a fun/prank trick, than an actual sec
 
 Firstly create a _gpg_ encoded script snippet. When run, _gpg_ will prompt for encoding passphrase.
 
-```
+```bash
 » gpg -ac -o- <<'EOF' | xclip -selection clipboard
 echo "I am encrypted"
 EOF
@@ -89,7 +89,7 @@ As the key is required for executing the encrypted parts, the bash script needs 
 
 In the script below the user will be prompted for the decoding passphrase before being able to execute the encoded section.
 
-```
+```bash
 #!/bin/bash
 
 echo "To learn the secret, you must know the passphrase"

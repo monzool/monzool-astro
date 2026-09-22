@@ -17,7 +17,7 @@ I primarily do C/C++ programming (and a bit of Lua scripting), but I really woul
 
 Mixing two complete different kinds of languages (static and dynamic) requires either good binding layers or Mono. The [Kde Project](http://www.kde.org) provides a large suite of binders in the KdeBindings package. The [README](svn://anonsvn.kde.org/home/kde/trunk/KDE/kdebindings/README) contains a concise description of the project contents:
 
-```
+```text
 This package contains:
 * working:
   * korundum: KDE bindings for ruby

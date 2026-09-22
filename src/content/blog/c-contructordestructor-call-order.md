@@ -16,7 +16,7 @@ Here are two stories that might help in remembering. The stories might seem quit
 
 The skyscraper story is exemplified from this simple class structure:
 
-```
+```cpp
 class Base
 {
   Base() { cout << "Base" << endl; }
@@ -53,14 +53,14 @@ So what about the special case of destruction when the object is polymorphic?
 
 When allocated is looks like its a building with only a base level; even though we know its a building two storages high.
 
-```
+```cpp
 Base* pBase = new Derived;
 
 ```
 
 The problem here is that the demolition team only have access to the base level and when destroying the building, disaster will happen...
 
-```
+```cpp
 delete pBase;
 
 ```
@@ -69,7 +69,7 @@ As the building **is** two storages high, it will collapse when the supporting f
 
 So how to fix this situation? You provide the demolition team with an _elevator_. The "elevator" is a special demolition model called `virtual`.
 
-```
+```cpp
 class Base
 {
   Base() { cout << "Base" << endl; }
@@ -86,7 +86,7 @@ The second story relate the base/derived situation to file contents manipulation
 
 A file must be opened before it can be closed, and if opened it must be closed again at some point. Thus it make sense to create a class that opens the file in the constructor, and closes the file again in the destructor.
 
-```
+```cpp
 class FileAccess
 {
   FileAccess() { cout << "Open file..." << endl; }
@@ -97,7 +97,7 @@ class FileAccess
 
 Read and write operations are similar functionality (transfer data, but in opposite direction) and thus it makes sense to collect this functionality in one class. As the goal is to modify the contents of a file, the reading of the existing file content can be placed in the constructor, and writing of the modified content in the destructor.
 
-```
+```cpp
 class FileManipulate
 {
   FileManipulate() { cout << "Read from file..." << endl; }
@@ -112,7 +112,7 @@ Two classes are now at hand. One that opens and closes a file, and one that read
 
 A prerequisite of reading from a file or writing to a file is that the file is open. Therefore the basic but essential functionality of opening and closing is made the base class (`FileAccess`). The more advanced and flexible functionality of reading and writing is then made in the derived class (`FileManipulate`).
 
-```
+```cpp
 class Base /* FileAccess */
 {
   Base() { cout << "Open file..." << endl; }

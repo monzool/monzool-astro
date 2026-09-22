@@ -14,7 +14,7 @@ categories:
 
 awk is not something I usually have reached for, when having to do more that trivial text processing tasks. Well, the classic column print functionality of awk is so strait forward that its unavoidable ;-)
 
-```
+```bash
 cat data.csv | awk -F ',' '{ print $2 }'
 
 ```
@@ -27,7 +27,7 @@ What amazed me about Awk was its great flexibility, but yet the documentation ma
 
 Before getting to the few Awk source snippets, understand that Awk has three section. Each of them is optional and run on different points in time:
 
-```
+```awk
 BEGIN {
 }
 {
@@ -42,7 +42,7 @@ The `BEGIN` section executes first thing as the script starts. Opposite is the `
 
 The following snippet is an (incomplete) part that I used in the process. Having to replace an argument in a function call is easily solved, even with just sed or bash, but when the arguments are then given on multiple lines, the solution requires a bit more effort.
 
-```
+```c
     transmit_to_lpc(destination,
         type,
         data_struct,
@@ -52,7 +52,7 @@ The following snippet is an (incomplete) part that I used in the process. Having
 
 Awk by default reads line by line as most unix tools, but its record variable RS, allows for convenient manipulation to read until any other thing. The snippet below instructs Awk to read until it meets the block ending character in C ;.
 
-```
+```awk
 #!/usr/bin/gawk -f -i inplace
 
 BEGIN {
@@ -70,7 +70,7 @@ BEGIN {
 
 After running the Awk script, the source have been transformed.
 
-```
+```c
     transmit_to_lpc(destination,
         type,
         data_struct,
@@ -80,7 +80,7 @@ After running the Awk script, the source have been transformed.
 
 Another nifty trick made easy by Awk was to count the instances replaces. This was mainly used for a basic statistic set of which projects/files suffered the most from wrong size use.
 
-```
+```bash
 gawk -i inplace 
     -v old="${tag}"
     -v new="sizeof(${tag})"

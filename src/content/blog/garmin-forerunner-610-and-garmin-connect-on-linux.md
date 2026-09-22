@@ -18,7 +18,7 @@ With thanks to [Tigge](https://github.com/Tigge) and [Dave Lotton](http://source
 
 _Tigge_ have created the tools to connect to the watch and download training pass files from it. Download from _github_ and install:
 
-```
+```bash
 » git clone https://github.com/Tigge/openant.git
 » (cd openant; sudo python setup.py install)
 » git clone https://github.com/Tigge/antfs-cli.git
@@ -28,7 +28,7 @@ _Tigge_ have created the tools to connect to the watch and download training pas
 
 Now insert the `ANT+` usb dongle, and run this command to download all training pass from the watch.
 
-```
+```bash
 » antfs-cli
 
 ```
@@ -39,14 +39,14 @@ The files will end up in the directory `~/.config/antfs-cli/``/activities`.
 
 To upload the files to the _Germin Connect_ service, install the `GcpUploader` made by _Dave Lotton_:
 
-```
+```bash
 pip install gcpuploader
 
 ```
 
 Next setup a credentials file for `GcpUploader`.
 
-```
+```bash
 echo -e "\
 [Credentials]\n\
 username=\n\
@@ -58,7 +58,7 @@ Edit the file and set credentials. When setting the `username` your must write y
 
 Finally upload all files:
 
-```
+```bash
 ~/.config/antfs-cli/3894281250/activities» gupload.py -t "running" *.fit
 File: 2015-02-20_16-38-36_4_3.fit    ID: 707690585    Status: SUCCESS    Name: N/A    Type: running
 File: 2015-02-24_17-46-28_4_4.fit    ID: 707690640    Status: SUCCESS    Name: N/A    Type: running
@@ -73,7 +73,7 @@ As seen from the output, already uploaded files are skipped, so if not wanting t
 
 **Side note:** For the version that I downloaded (`GcpUploader-2015.2.21.3` I had to patch it to accept login with the credentials file:
 
-```
+```diff
 --- gupload.py.orig     2015-02-28 14:03:14.223948320 +0100
 +++ gupload.py  2015-02-28 16:24:35.738408614 +0100
 @@ -92,7 +92,7 @@

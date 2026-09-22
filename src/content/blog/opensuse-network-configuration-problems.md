@@ -24,7 +24,7 @@ If booting after this modification, the first error message would vanish and, as
 
 The missing configuration can be fixed in Yast by creating a new ethernet device called `ifcfg-eth0`, or as I did, by just soft-linking the existing network configuration to that name.
 
-```
+```bash
 # ln -s /etc/sysconfig/network/ifcfg-eth-bus-pci-0000\\:02\\:00.0 
 /etc/sysconfig/network/ifcfg-eth0
 

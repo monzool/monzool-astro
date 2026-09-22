@@ -13,7 +13,7 @@ When waking up at the morning, I would find my phone being stuck waiting for my 
 
 I started by investigating information from `adb logcat`.
 
-```
+```text
 --------- beginning of kernel
 05-25 01:30:15.540     0     0 I trusty  : boot args 0x*** 0x*** 0x6 0x0
 
@@ -45,19 +45,19 @@ When feeding the errors messages to ChatGPT. It concluded that this is from a fa
 
 So if _Trusty Tee_ was the last thing running - what made it then be needed? I decided to investigate the cause of the reboot. To get access restricted logs, I had to generate and download a bugreport from the phone
 
-```
+```bash
 ❱ adb bugreport reboot_at_night-2025-05-25.zip
 ```
 
 Grepping a bit in kernel message log for failures…
 
-```
+```bash
 ❱ grep -a -iE 'panic|watchdog|fatal|reboot|crash|stack|Call trace' ./FS/data/misc/recovery/last_kmsg
 ```
 
 revealed some interesting information
 
-```
+```text
 [474014.231799][  T547] init: Received sys.powerctl='reboot,unAttended,mainline_update' from pid: 1776 (system_server)
 [474014.232080][    T1] init: Got shutdown_command 'reboot(unattended,mainline_update)'...
 [474016.354876][    T1] init: Service vold has 'reboot_on_failure' option and failed, shutting down System.
@@ -72,7 +72,7 @@ So the device has rebooted due to an _unattended mainline_ update. Unattended up
 
 I then grepped for updates from today, but the list was surprisingly long, so narrowed it down to mainline updates close to the reboot timestamp
 
-```
+```bash
 ❱ adb shell dumpsys package apex | grep -E 'Package \[|lastUpdateTime' | grep -A1  mainline |  grep -B1 2025-05-25
   Package [com.google.mainline.telemetry] (17fc754):
     lastUpdateTime=2025-05-25 01:30:43

@@ -20,7 +20,7 @@ I am not really sure why this situation ended up happening. It might have been a
 
 Digging into zsh's `fpath`, I discovered that [Homebrew](https://brew.sh/) ships its own `_git` zsh completion wrapper alongside the git formula. It lives at:
 
-```
+```text
 /home/linuxbrew/.linuxbrew/share/zsh/site-functions/_git
 ```
 
@@ -32,7 +32,7 @@ My Ubuntu's own `_git` at `/usr/share/zsh/functions/Completion/Unix/_git` is far
 
 To check which `_git` zsh is actually loading, start a new shell and run:
 
-```
+```zsh
 ❱ print -l $fpath
 /home/linuxbrew/.linuxbrew/share/zsh/site-functions   # <-- brew
 /home/monzool/.oh-my-zsh/plugins/git
@@ -42,7 +42,7 @@ To check which `_git` zsh is actually loading, start a new shell and run:
 
 zsh resolves autoloaded completion functions by searching `fpath` **in order** and using the first match. Brew's `_git` is found before the system one because `brew shellenv` **prepends** its directory to `fpath`:
 
-```
+```zsh
 fpath[1,0]="/home/linuxbrew/.linuxbrew/share/zsh/site-functions";
 ```
 
@@ -54,14 +54,14 @@ The fix is to move brew's `site-functions` to the **end** of `fpath`, so system 
 
 I added this to `~/.zshrc` right after `eval "$(brew shellenv)"`:
 
-```
+```zsh
 # Move brew's zsh completions to end of fpath so system completions take priority
 fpath=(${fpath:#$HOMEBREW_PREFIX/share/zsh/site-functions} $HOMEBREW_PREFIX/share/zsh/site-functions)
 ```
 
 Then cleared the completion cache
 
-```
+```bash
 〉rm -f ~/.zcompdump*
 〉compinit
 ```

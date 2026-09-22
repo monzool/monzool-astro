@@ -17,7 +17,7 @@ This is the steps I did to cross-compile Janet. Actually Janet provides more tha
 
 meson does cross-compilation by use of a configuration file For more information, see https://mesonbuild.com/Cross-compilation.html
 
-```
+```bash
 » cat << EOF > armv5_musl.cross
 [binaries]
 c = '/home/monzool/work/armv5-eabi--musl--stable-2018.11-1/bin/arm-linux-gcc'
@@ -49,7 +49,7 @@ EOF
 
 Now run meson to make it generate compile files:
 
-```
+```bash
 » meson setup build \
         --cross-file armv5_musl.cross \
         --buildtype release \
@@ -59,7 +59,7 @@ Now run meson to make it generate compile files:
 
 meson generates [ninja](https://ninja-build.org) files. Command ninja to build the project:
 
-```
+```bash
 » ninja -C build
 ninja: Entering directory `build'
 [0/1] Regenerating build files.
@@ -92,7 +92,7 @@ Found ninja-1.8.2 at /usr/bin/ninja
 
 Now to verify that the output is actually for the intended target
 
-```
+```bash
 » file ./build/janet
 ./build/janet: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, stripped
 
@@ -100,7 +100,7 @@ Now to verify that the output is actually for the intended target
 
 The output file is a self-contained static executable, nice and easy to copy to the target and run
 
-```
+```bash
 » readelf -d ./build/janet | grep NEEDED
 
 ```
