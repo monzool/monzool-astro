@@ -2,7 +2,7 @@
 title: "Error banner in shell"
 description: 'A shell trick to make git errors more prominent'
 pubDate: '2026-04-10'
-# heroImage: '../../assets/blog-placeholder-3.jpg'
+heroImage: '../../assets/fallback-blossom-blue.jpg'
 categories:
   - "programming"
   - "shell-scripting"
