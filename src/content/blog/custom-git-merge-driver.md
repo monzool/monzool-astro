@@ -2,7 +2,7 @@
 title: "Custom git merge driver"
 description: ''
 pubDate: '2026-03-24'
-heroImage: '../../assets/fallback-blossom-blue.jpg'
+heroImage: '../../assets/custom-git-merge-driver/thumb.png'
 categories:
   - "linux"
   - "python"

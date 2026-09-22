@@ -2,7 +2,7 @@
 title: "ESET crashing with locale error"
 description: ''
 pubDate: '2025-04-24'
-heroImage: '../../assets/fallback-blossom-blue.jpg'
+heroImage: '../../assets/eset-crashing-with-locale-error/eset-gui.png'
 categories:
   - "linux"
   - "software"

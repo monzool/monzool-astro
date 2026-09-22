@@ -2,7 +2,7 @@
 title: "Pixel 7a Trusty TEE failure"
 description: ''
 pubDate: '2025-05-25'
-heroImage: '../../assets/fallback-blossom-blue.jpg'
+heroImage: '../../assets/pixel-7a-trusty-tee-failure/thumb.png'
 categories:
   - "android"
 ---

@@ -2,7 +2,7 @@
 title: "Dystopian Movies"
 description: ''
 pubDate: '2007-09-29'
-heroImage: '../../assets/fallback-blossom-blue.jpg'
+heroImage: '../../assets/dystopian-movies/movies_film_old_reel-750873.jpg'
 categories:
   - "entertainment"
   - "movies"

@@ -2,7 +2,7 @@
 title: "Grokking Simplicity"
 description: ''
 pubDate: '2024-08-15'
-heroImage: '../../assets/fallback-blossom-blue.jpg'
+heroImage: '../../assets/grokking-simplicity/thumb.jpg'
 categories:
   - "books-technical"
   - "programming"

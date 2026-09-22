@@ -2,7 +2,7 @@
 title: "Homebrew breaking git tab completion in zsh"
 description: ''
 pubDate: '2026-03-19'
-heroImage: '../../assets/fallback-blossom-blue.jpg'
+heroImage: '../../assets/homebrew-breaking-git-tab-completion-in-zsh/homebrew-social-card.png'
 categories:
   - "linux"
   - "software"

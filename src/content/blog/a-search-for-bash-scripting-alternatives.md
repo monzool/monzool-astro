@@ -2,8 +2,8 @@
 
 title: 'A Search for Bash Scripting Alternatives'
 description: "A survey of alternatives to bash scripting, weighing shells and scripting languages against bash's many pitfalls."
+heroImage: '../../assets/fallback-blossom-blue.jpg'
 pubDate: '2017-07-04'
-
 ---
 
 
