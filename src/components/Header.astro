@@ -3,6 +3,7 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
+<div class="banner"></div>
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
@@ -43,10 +44,16 @@ import HeaderLink from './HeaderLink.astro';
 	</nav>
 </header>
 <style>
+	.banner {
+		height: 200px;
+		background-image: url('../assets/blossom-blossoms-band.jpg');
+		background-size: cover;
+		background-position: center;
+	}
 	header {
 		margin: 0;
 		padding: 0 1em;
-		background: white;
+		background: rgb(var(--surface));
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
 	h2 {
