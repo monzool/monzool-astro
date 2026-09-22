@@ -96,10 +96,12 @@ code {
 	padding: 2px 5px;
 	background-color: rgb(var(--gray-light));
 	border-radius: 2px;
+	font-size: 0.75em;
 }
 pre {
 	padding: 1.5em;
 	border-radius: 8px;
+	font-size: 0.75em;
 }
 pre > code {
 	all: unset;
