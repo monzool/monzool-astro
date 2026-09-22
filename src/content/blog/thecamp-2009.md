@@ -1,0 +1,27 @@
+---
+title: "TheCamp 2009"
+description: ''
+pubDate: '2009-08-04'
+heroImage: '../../assets/fallback-blossom-blue.jpg'
+categories:
+  - "personal"
+  - "travel"
+---
+
+**THE-CAMP 2009 WAS** the third time I've dedicated a week of my summer vacation at [TheCamp](http://www.thecamp.dk). As mentioned in previous posts ([TheCamp 2008](http://monzool.net/blog/2008/07/27/thecamp-2008/) and [TheCamp 2007](http://monzool.net/blog/2007/08/08/thecamp/)) its a week where nerds meet to have fun, eat lots of food, drink beers and hack with ones own projects at will. This year we were 50 participant of a wide variety. The youngest participant was an (circa) 14 year old gamer, the oldest participant was a lady of 73 years of age wanting to acquire some more Linux knowledge. This year the female participant count was raised to five - a pleasant trend.
+
+As the previous years I came with so many projects to do, that I knew I would not finish them all. I've been wanting to learn functional programming for a while. My intention was to learn [Falcon](http://www.falconpl.org/), but one other participants had a task of learning [Haskell](http://www.haskell.org/), while another was proficient in the language, so I joined in on Haskell. I only had time for a brief encounter, but I've ordered some books and can't wait to seriously dive in. I had brought some work with me, where I managed to clean up some unit-test and functionality-test code. [Linx](http://sourceforge.net/projects/linx/) have had my interest for a while now, and I managed to do a prototype porting, of a client-server application of mine, to use Linx for IPC instead. I wanted to try out [Mono](www.mono-project.com) on a PowerPC evaulation board, but [LTIB](http://savannah.nongnu.org/projects/ltib/) didn't really want to run on my Debian unstable install, so I ended up playing around with OpenSuse 11 on a [Sun Virtualbox 3.0](www.virtualbox.org).
+
+Virtualization was in fact the "great big thing" in this years guest talks. Asbjørn Sloth Tønnesen held a talk about [Xen](http://www.xen.org/), Niklas Q. Nielsen held a talk about [OpenVz](wiki.openvz.org). A third person (Svenne Krap) gave a short informal introduction to [KVM](http://www.linux-kvm.org/). [Poul-Henning Kamp](http://people.freebsd.org/~phk/) held a talk where he apposed the increasing use of virtualizing the hardware.
+
+Generally there was many excellent talks this year (to many to describe in detail), but here is some details on a few:
+
+Bo S. Sørensen held a very entertaining talk about [Android](http://www.android.com/). He gave an overview in the evolution of smart-phones, and introduced the available Android phones. During his 45 minute talk he demonstrated the [Android development tools](http://developer.android.com/index.html) by creating an application that could extract where his fotos on his phone where taken (if equipped Android phones stores the GPS position as meta data for each photo), and show the positions on a google map. As a side note: working daily with embedded Linux, it was with much envy I saw how seamless and easy the development environment integrated with the actual hardware. It was impressing to see how easy one could switch from running or debugging directly on a phone or in a Android emulator.
+
+Palle Raabjerg ranted (friendly) about keyboard layouts. He's a bit fan of the [Maltron](http://www.maltron.com/maltron-kbd-dual.html) ergonomic keyboards. Martin Toft spoke about his experiences with [bug fixing Vim at Google Summer of Code 2007](http://gsoc.martintoft.dk/). An then there was Thomas Bøgholm... The two public television stations DR1 and DR2 are experimenting with streaming all their broadcastings in Linux friendly high resolution streams. So Thomas records and stores **everything** streamed from those two channels. Some might think this a the work of a crazy man, but I think it is an awesome (and crazy) thing to do. He's made some software for automating the procedures, and got the software released under FOSS friendly license.
+
+A very special event was celebrating the 40'th year of the moon landing by having a midnight outdoor movie display of the Apollo 11 mission. One of the TheCamp participants had bought a book where the authors had done a lot of work piecing together two movies of the moon landing mission. The first movie was the last 30 minutes of the decent and landing on the moon, the second movie was an almost 2 hour movie of Niel Armstrong and Buzz Aldrin working the moon. I've only seen small clips from the first moon landing, and it was first when seeing these movies that I really got my eyes up for the amazing achievement that was performed 40 years ago. I was very much awe struck. The same could be said for a revisiting participant of American (U.S.A) origin. He was convinced that he had seen everything there was to be seen of the Apollo 11 mission, but this movie had quite a few bits and pieces that was new to him. He went strait to amazon and bought the book `:-)`.
+
+This year we also had a visit from a public television station that did a daily broadcasting from different summer arrangement around the country. They didn't have the first (or n'th) clue about computers, so they mainly wanted to hear "IT-jokes" (they didn't understand a single one of the jokes) and filmed the days special event of hardware-throwing.
+
+So TheCamp proved again to be the highlight of the year. I'm definitely going next year `;-)`.
