@@ -1,6 +1,7 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
+import carve from '@markup-carve/astro-carve'
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 
@@ -8,7 +9,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	site: 'https://monzool.net',
 	trailingSlash: 'always',
-	integrations: [mdx(), sitemap()],
+	integrations: [mdx(), carve(), sitemap()],
 	fonts: [
 		{
 			provider: fontProviders.local(),
