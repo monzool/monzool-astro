@@ -54,6 +54,18 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## robots.txt
+
+`public/robots.txt` uses a deny-by-default allowlist (`Disallow: /` plus explicit `Allow:` rules), not the usual deny-specific-paths approach:
+
+- `Allow: /$` — exact match for the homepage only. The `$` end-anchor is required here; a bare `Allow: /` would tie in specificity with `Disallow: /` and create ambiguous behavior across crawlers.
+- `Allow: /about/` and `Allow: /blog/` — prefix matches, so `/blog/` also covers every post (e.g. `/blog/2026/04/10/error-banner-in-shell/`) without listing them individually.
+- `Allow: /blog/wp-content/uploads/` — kept from the old WordPress-era robots.txt, in case any content still references images at those legacy URLs.
+- `Allow: /rss.xml` and `Allow: /sitemap*.xml` — the Astro-generated feed and sitemap files.
+- `Allow: /_astro/` — Astro's hashed build assets (CSS/JS/images). Blocking these is discouraged by Google since it can interfere with properly rendering pages for indexing.
+
+Everything else is denied by default. **Adding a genuinely new top-level route (e.g. a future Projects page) requires adding its own `Allow` line here, or it silently won't get indexed.**
+
 ## 👀 Want to learn more?
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
