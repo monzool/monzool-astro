@@ -7,14 +7,19 @@
 #   M     M   OOO   N    N  ZZZZZ   OOO    OOO   LLLL  o  N    N  EEEE    T
 #
 
-User-agent: *
-Disallow: /
 
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
 
-User-Agent: *
-Allow: /blog/wp-content/uploads/
-Allow: /rss.xml
-Allow: /sitemap*.xml
-Allow: /_astro/
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
 
-Sitemap: https://monzool.net/sitemap-index.xml
+# Protect wp-config.php
+<files wp-config.php>
+order allow,deny
+deny from all
+</files>
