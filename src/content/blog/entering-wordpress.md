@@ -15,6 +15,6 @@ First I created a simple initial version of my personal webpage using tables and
 
 Now that I had a webpage running, I wanted to add more exiting things. This led me on, to try out some frameworks found on the internet: [PRADO](http://www.xisc.com/), [Zend](http://www.zend.com), [Yahoo UI](http://developer.yahoo.com/yui/), [WYM Style](http://www.wymstyle.org) and more. I rejected them all eventually for various reasons.
 
-The last thing I tried was [tex4ht](http://www.cse.ohio-state.edu/~gurari/TeX4ht/mn.html). A tool that allows for conversion of TeX and LaTeX documents to html and/or xml pages - sweet :-) This could have been the ideal chance of brushing up on my LaTeX skill's as well as getting a website completed. The tools is quite impressive, but I could not quite get it to directly produce a decent level of visual appearance without some tweaking in the css output.
+The last thing I tried was [tex4ht](https://tug.org/tex4ht/). A tool that allows for conversion of TeX and LaTeX documents to html and/or xml pages - sweet :-) This could have been the ideal chance of brushing up on my LaTeX skill's as well as getting a website completed. The tools is quite impressive, but I could not quite get it to directly produce a decent level of visual appearance without some tweaking in the css output.
 
 I finally decided to channel my experimentations to my other neglected programming projects and focus more on some actual contents for my webpage. So now I think I'll give web publishing by blogging a try :-)

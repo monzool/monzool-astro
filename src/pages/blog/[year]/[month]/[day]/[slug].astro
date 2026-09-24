@@ -4,12 +4,12 @@ import BlogPost from '../../../../../layouts/BlogPost.astro';
 import { getPostDateParts } from '../../../../../utils/blog';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
+    const posts = await getCollection('blog');
 
-	return posts.map((post) => ({
-		params: getPostDateParts(post),
-		props: post,
-	}));
+    return posts.map((post) => ({
+        params: getPostDateParts(post),
+        props: post,
+    }));
 }
 type Props = CollectionEntry<'blog'>;
 
@@ -18,5 +18,5 @@ const { Content } = await render(post);
 ---
 
 <BlogPost {...post.data}>
-	<Content />
+    <Content />
 </BlogPost>
