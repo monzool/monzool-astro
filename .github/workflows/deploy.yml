@@ -34,4 +34,4 @@ jobs:
           port: 22
           localDir: 'dist'
           remoteDir: ${{ secrets.SFTP_REMOTE_PATH }}
-          concurrency: 4
+          concurrency: 2
