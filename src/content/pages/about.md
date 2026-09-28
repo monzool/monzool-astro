@@ -84,15 +84,15 @@ The story: [monzool.net/blog/2021/12/14/my-encounters-on-doing-web-development](
 
 #### 2020 – 2021
 
-**Technologies:** C++98, C, Linux, Kernel debugging, Bash, Selenium, Docker, GitHub, MRuby
+**Technologies:** C++98, C, Linux, Kernel debugging, Bash, Selenium, Docker, GitHub, MRuby, Logentries
 
-New features and quality improvements for high-end speakers. Introduced Selenium for automated testing of the web UI. Developed an init rc script replacement and system monitoring tool in mruby. Hardened software quality with code analysis and compiler updates with strict flags enforced. Dockerized the build toolchain.
+New features and quality improvements for high-end speakers. Introduced Selenium for automated testing of the web UI. Developed an init rc script replacement and system monitoring tool in [mruby](https://mruby.org/). Hardened software quality with code analysis and strict compiler flags enforced. Out-of-band compilation with very latest compiler for improved diagnostics. Dockerized the build toolchain. [Logentries](https://www.rapid7.com/blog/tag/logentries/) for GDPR compliant diagnostics.
 
 #### 2019 – 2019
 
-**Technologies:** C++17, STM32, Mbed OS
+**Technologies:** C++17, STM32, Mbed OS, CMake, OTA/USB DFU
 
-Part of a small team for greenfield development of a battery-powered embedded WiFi project based on STM32, Mbed OS, C++17, C, and a high-DPI touch display driven by the TouchGFX framework.
+Part of a small team for greenfield development of a battery-powered embedded WiFi project based on STM32, event driven Mbed OS, modern C++17, C, and a high-DPI touch display driven by the TouchGFX framework. USB abd OTA (Over-the-Air) DFU (Device Firmware Upgrade) handling.
 
 #### 2017 – 2017
 
@@ -102,9 +102,9 @@ Time-shared to become half of the flexible speakers team. Took over the project 
 
 #### 2016 – 2019
 
-**Technologies:** C++98, C, Linux, Bash, AVB, Boost, Protobuf, Thrift, REST API, SOAP, JavaScript, React, RefluxJS, LogEntries, Subversion
+**Technologies:** C++98, C, Linux, Bash, AVB, Boost, Protobuf, Thrift, REST API, SOAP, JavaScript, React, RefluxJS, LogEntries, Subversion, ScratchBox
 
-Joined the high-end speaker team. Development in C and C++ on an elderly Linux platform. Primary tasks: implementing a REST server in C++, control handling of sound functionality, adding features/bugfixes to the web UI, and software update handling. Retrofitted unit testing with boost::test (C++) and Ceedling/fff (C). Created the build system for collecting all software components into a single image.
+Joined the high-end speaker team. Development in C and C++ on an elderly Linux platform. Primary tasks: implementing a REST server in C++, control handling of sound functionality, adding features/bugfixes to the web UI, and software update handling. Retrofitted unit testing with boost::test (C++) and Ceedling/fff (C). Created the build system for collecting all software components into a deployable image. The original BSP was [ScratchBox](https://en.wikipedia.org/wiki/Scratchbox_2) based, which I ported to other build system
 
 #### 2015 – 2016
 
