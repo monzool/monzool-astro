@@ -18,6 +18,17 @@ order deny,allow
 deny from all
 </Limit>
 
+# Legacy WordPress feed URLs -> Astro feed
+# (/blog/feed, /blog/feed/, /blog/feed/rss2/, /blog/feed/atom/, ...)
+RedirectMatch 301 ^/blog/feed(/.*)?$ /rss.xml
+
+# Legacy query-string feeds (/blog/?feed=rss2, /?feed=rss2, ...)
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{QUERY_STRING} (^|&)feed= [NC]
+RewriteRule ^(blog/?)?$ /rss.xml? [R=301,L]
+</IfModule>
+
 # Protect wp-config.php
 <files wp-config.php>
 order allow,deny
