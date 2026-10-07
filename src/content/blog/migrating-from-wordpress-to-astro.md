@@ -136,7 +136,7 @@ categories:
 And Bobs your uncle... well not quite
 
 
-### Urls with trialing slashes
+### Urls with trailing slashes
 
 Urls from Wordpress ends with a `/` (e.g. https://monzool.net/blog/2026/04/10/error-banner-in-shell/) while Astro do not append the slash at the end by default.
 
