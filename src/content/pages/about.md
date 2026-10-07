@@ -9,26 +9,27 @@ I am a software engineer by trade, and have spent most of my career as a staff s
 
 
 ⠀
+
 # *Curriculum Vitae*
 
-⠀
+
 ## 👷 Work Experience
-⠀
-### 💻 Trifork A/S 
+
+### 💻 Trifork A/S
 
 2023 – Now
 
 #### 2025 – 2026
 
-**Technologies:** Github (GHEC), Github Actions, Azure, yaml, bash, PowerShell, Nexus, Windows, WSL
+**Technologies:** Github (GHEC), Github Actions, Azure, yaml, bash, PowerShell, Nexus, Windows, WSL, C\#, python, JavaScript, apt, npm, nuget, PlayWright
 
-Developing a security hardened build pipeline in fin-tech setting
+Developing a security hardened build pipeline in fin-tech setting. Agenda was to build a single, all encompassing, pipeline that handles build and deploy of all the corporations projects. This meant being able to build Node.js, C#, Python, Java apps, and more. Developers could not change workflows, but configured builds and deployment using our own custom developed configuration set up. Much of the work was exploration of solutions and negotiating compromises that provided the best solution that satisfied both security requirements and developer needs. Support and guidance of projects adopting this new build platform. Discussions, planning and implementations of solutions as projects requirement arose. Managing of github and copilot licenses.
 
 #### 2024 – 2025
 
-**Technologies:** C\#, MQTT, Python, Docker, PLC, Linux, Azure, Windows
+**Technologies:** C\#, MQTT, Python, Streamlit, Docker, supervisord, haproxy, PLC, Linux, Azure, Windows, Windows Services, OpenAPI, ASP.Net
 
-Controlling a visual AI system with conveyor belt, specialized cameras and lighting. Included trips to Spain.
+Controlling a visual AI system with conveyor belt, specialized cameras and lighting. Included trips to Spain. Monitoring and control in a Streamlit web-app using OpenAPI generated rest-api to an ASP.Net server. Utilizing [supervisord](https://supervisord.org/) in the web-app docker container. Reverse proxy done by [haproxy](https://www.haproxy.org/). TACO (Threshold/Time-Activated Counter Operation) architecture for per-site dynamically configured activation of lights and cameras. Data collection of results for AI processing. Strict logging and persistence requirements for all activities.
 
 #### 2024 – 2024
 
@@ -76,7 +77,7 @@ Automatic testing in proprietary Python framework building upon pytest. Testing/
 
 #### 2021 – 2022
 
-**Technologies:** JavaScript, React, Redux, Bootstrap, Babel, Go, Docker, GitHub Actions
+**Technologies:** JavaScript, React, Redux, Bootstrap, Babel, OpenAPI, Go, Docker, GitHub Actions
 
 Update and upgrade of web UI for high-end speakers. Later a complete re-implementation of the web UI with new web technologies for the next version of the mentioned high-end speakers.
 
