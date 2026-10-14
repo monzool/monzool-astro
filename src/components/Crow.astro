@@ -1,0 +1,338 @@
+---
+// 8-bit crow that flies in, lands, pecks the ground while flowers spring up, and flies out again.
+// Pixel art is defined as character grids and turned into SVG sprite sheets at build time.
+// The wings and the flowers are animated with steps(), which jumps from frame to frame.
+const PIXEL = 3;
+const FRAME_W = 16;
+const FRAME_H = 12;
+const CROW_COLORS: Record<string, string> = { B: '#111111', K: '#555555', E: '#ffffff' };
+
+const gridOf = (w: number, h: number) => (rows: Partial<Record<number, string>>) =>
+    Array.from({ length: h }, (_, y) => rows[y] ?? '.'.repeat(w));
+
+// One horizontal sheet from a list of frames; one <rect> per horizontal run of same-coloured pixels.
+const makeSheet = (frames: string[][], colors: Record<string, string>, w: number, h: number) => {
+    const rects = frames.flatMap((rows, frame) =>
+        rows.flatMap((row, y) => {
+            const runs: string[] = [];
+            for (let x = 0; x < row.length; ) {
+                let end = x;
+                while (end < row.length && row[end] === row[x]) end++;
+                if (colors[row[x]]) {
+                    runs.push(
+                        `<rect x="${frame * w + x}" y="${y}" width="${end - x}" height="1" fill="${colors[row[x]]}"/>`,
+                    );
+                }
+                x = end;
+            }
+            return runs;
+        }),
+    );
+    const width = frames.length * w;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${h}" viewBox="0 0 ${width} ${h}" shape-rendering="crispEdges">${rects.join('')}</svg>`;
+    return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+};
+
+// ---- Crow ----
+const crowGrid = gridOf(FRAME_W, FRAME_H);
+
+// Body in flight, shared by all flap frames. Each frame only adds wing rows.
+const body = {
+    4: '..........BBB...',
+    5: '.....BBBBBBEBKKK',
+    6: '.BBBBBBBBBBBBK..',
+    7: 'BBBBBBBBBBBB....',
+    8: '.BBBBBBBBB......',
+};
+const flapFrames = [
+    // wings up
+    { 0: '....B...........', 1: '....BB..........', 2: '....BBB.........', 3: '....BBBB........', 4: '....BBBBB.BBB...' },
+    // wings half up
+    { 2: '......BB........', 3: '....BBBBB.......', 4: '..BBBBBBB.BBB...' },
+    // wings down
+    { 9: '....BBBBB.......', 10: '....BBBB........', 11: '....BB..........' },
+    // wings half down
+    { 9: '..BBBBBBB.......' },
+].map((wings) => crowGrid({ ...body, ...wings }));
+
+const perchRows = {
+    3: '..........BBB...',
+    4: '.........BBEBKKK',
+    5: '.........BBBBK..',
+    6: '.....BBBBBBBB...',
+    7: '...BBBBBBBBBB...',
+    8: '..BBBBBBBBBBB...',
+    9: '.BBBBBBBBBB.....',
+    10: 'BBB....K.K......',
+    11: 'BB.....KK.KK....',
+};
+const perchFrame = crowGrid(perchRows);
+
+// Take-off pose: still on the ground, wings thrown up. Shown for a moment between pecking and flapping.
+const launchFrame = crowGrid({
+    ...perchRows,
+    0: '....B...........',
+    1: '....BB..........',
+    2: '....BBB.........',
+    3: '....BBBB..BBB...',
+    4: '....BBBBBBBEBKKK',
+    5: '.....BBBBBBBBK..',
+});
+
+// Pecking pose: head down, beak touching the ground.
+const peckFrame = crowGrid({
+    2: '.B..............',
+    3: '.BBB............',
+    4: '..BBBBB.........',
+    5: '..BBBBBBBB......',
+    6: '...BBBBBBBBB....',
+    7: '....BBBBBBBBBB..',
+    8: '....BBBBBBBBBBB.',
+    9: '......K.K..BBEB.',
+    10: '......K.K...BBK.',
+    11: '.....KK.KK...KK.',
+});
+
+// Sheet layout: the flap frames first, then the perch, launch and peck frames.
+const crowFrames = [...flapFrames, perchFrame, launchFrame, peckFrame];
+const frameX = (index: number) => `${-index * FRAME_W * PIXEL}px`;
+
+// ---- Flowers ----
+const FLOWER_W = 7;
+const FLOWER_H = 10;
+const flowerGrid = gridOf(FLOWER_W, FLOWER_H);
+const stem = { 5: '...G...', 6: '...G...', 7: '..GG.G.', 8: '...GG..', 9: '...G...' };
+// Growth stages: sprout, leaves, bud, bloom. P = petals, Y = centre, G = green.
+const flowerFrames = [
+    flowerGrid({ 8: '...G...', 9: '...G...' }),
+    flowerGrid({ 6: '...G...', 7: '...G.G.', 8: '...GG..', 9: '...G...' }),
+    flowerGrid({ 3: '...P...', 4: '..PPP..', ...stem }),
+    flowerGrid({ 0: '..PPP..', 1: '.PPYPP.', 2: '.PYYYP.', 3: '.PPYPP.', 4: '..PPP..', ...stem }),
+];
+// Each flower sprouts one peck after the previous one (the delay is a multiple of the 1.25s peck period).
+const flowers = [
+    { x: 34, delay: 0, petal: '#ff6fa5' },
+    { x: -36, delay: 1.25, petal: '#4aa3ff' },
+    { x: 54, delay: 2.5, petal: '#8e5bd9' },
+    { x: -56, delay: 3.75, petal: '#ff8a3d' },
+].map(({ x, delay, petal }) => ({
+    x,
+    delay,
+    sheet: makeSheet(flowerFrames, { G: '#2e8b3a', P: petal, Y: '#ffd23f' }, FLOWER_W, FLOWER_H),
+}));
+
+// ---- Timeline ----
+// A visit takes 20s (the crow is gone from 16.6s). `pause` adds extra empty time before the loop repeats.
+// `start` delays the first visit only, so the page can be scrolled to the crow before it arrives.
+// Keyframes are percentages of the whole cycle, so they are generated from times in seconds.
+interface Props {
+    pause?: number;
+    start?: number;
+}
+const { pause = 10, start = 5 } = Astro.props;
+const VISIT = 20;
+const cycle = VISIT + Math.max(0, pause);
+const id = String(cycle).replace('.', '_');
+const at = (seconds: number) => `${+((seconds / cycle) * 100).toFixed(3)}%`;
+const keyframes = (name: string, stops: Array<[number[], string]>) =>
+    `@keyframes ${name}-${id}{${stops.map(([times, rules]) => `${times.map(at).join(',')}{${rules}}`).join('')}}`;
+
+const sitting = 'left:calc(50% - var(--frame-w) / 2);top:var(--arc)';
+const bloomed = 'background-position:var(--flower-bloom-x) 0';
+const keyframeCss = [
+    keyframes('crow-move', [
+        [[0], 'left:calc(var(--frame-w) * -1);top:0;visibility:visible;animation-timing-function:ease-out'],
+        [[4, 10], sitting],
+        [[10.8], `${sitting};animation-timing-function:ease-out`],
+        [[12.8], 'left:50%;top:0;animation-timing-function:ease-in'],
+        [[16.6], 'left:100%;top:0;visibility:visible'],
+        [[16.62, cycle], 'left:100%;top:0;visibility:hidden'],
+    ]),
+    keyframes('crow-wings-visible', [
+        [[0], 'visibility:visible'],
+        [[4], 'visibility:hidden'],
+        [[10.8], 'visibility:visible'],
+    ]),
+    keyframes('crow-perch-visible', [
+        [[0], 'visibility:hidden'],
+        [[4], 'visibility:visible'],
+        [[5], 'visibility:hidden'],
+    ]),
+    keyframes('crow-peck-visible', [
+        [[0], 'visibility:hidden'],
+        [[5], 'visibility:visible'],
+        [[10], 'visibility:hidden'],
+    ]),
+    keyframes('crow-launch-visible', [
+        [[0], 'visibility:hidden'],
+        [[10], 'visibility:visible'],
+        [[10.8], 'visibility:hidden'],
+    ]),
+    // Local to each flower; every flower is shifted by its own animation-delay.
+    // Sprout at 6s, full bloom at 6.8s, wilt from 14s to 14.5s, hidden again until the next visit.
+    keyframes('crow-bloom', [
+        [[0], 'visibility:hidden;opacity:1;background-position:0 0;animation-timing-function:step-end'],
+        [[6], 'visibility:visible;background-position:0 0;animation-timing-function:steps(4, jump-none)'],
+        [[6.8], `visibility:visible;${bloomed}`],
+        [[14], `visibility:visible;opacity:1;${bloomed}`],
+        [[14.5], `visibility:visible;opacity:0;${bloomed}`],
+        [[14.52, cycle], `visibility:hidden;opacity:0;${bloomed}`],
+    ]),
+].join('');
+
+const crowStyle = [
+    `--cycle: ${cycle}s`,
+    `--start: ${Math.max(0, start)}s`,
+    ...['move', 'wings-visible', 'perch-visible', 'peck-visible', 'launch-visible', 'bloom'].map(
+        (name) => `--kf-${name}: crow-${name}-${id}`,
+    ),
+    `--sheet: ${makeSheet(crowFrames, CROW_COLORS, FRAME_W, FRAME_H)}`,
+    `--frame-w: ${FRAME_W * PIXEL}px`,
+    `--frame-h: ${FRAME_H * PIXEL}px`,
+    `--sheet-w: ${crowFrames.length * FRAME_W * PIXEL}px`,
+    `--flap-w: ${flapFrames.length * FRAME_W * PIXEL}px`,
+    `--perch-x: ${frameX(flapFrames.length)}`,
+    `--launch-x: ${frameX(flapFrames.length + 1)}`,
+    `--peck-x: ${frameX(flapFrames.length + 2)}`,
+    `--flower-w: ${FLOWER_W * PIXEL}px`,
+    `--flower-h: ${FLOWER_H * PIXEL}px`,
+    `--flower-sheet-w: ${flowerFrames.length * FLOWER_W * PIXEL}px`,
+    `--flower-bloom-x: ${-(flowerFrames.length - 1) * FLOWER_W * PIXEL}px`,
+    `--arc: ${8 * PIXEL}px`,
+].join(';');
+---
+
+<style is:inline set:html={keyframeCss} />
+<div class="crow-track" style={crowStyle} aria-hidden="true">
+    <div class="crow-runner">
+        <div class="crow-wings"></div>
+        <div class="crow-perch"></div>
+        <div class="crow-peck"></div>
+        <div class="crow-launch"></div>
+    </div>
+    {
+        flowers.map(({ x, delay, sheet }) => (
+            <div class="crow-flower" style={`--x: ${x}px; --delay: ${delay}s; --flower-sheet: ${sheet}`} />
+        ))
+    }
+</div>
+
+<style>
+    /*
+     * One visit, then `pause` extra seconds before the loop repeats (the keyframes are generated in the
+     * frontmatter, because percentages cannot be computed from a CSS variable):
+     * 0-4s     fly in and land
+     * 4-5s     sit
+     * 5-10s    peck the ground (a peck every 1.25s), flowers spring up after each peck
+     * 10-10.8s launch pose (wings thrown up)
+     * 10.8-12.8s rise from the ground, flapping
+     * 12.8-16.6s fly out past the right edge
+     * 16.6s-   gone; the flowers wilt from about 14s to 18.3s
+     */
+    .crow-track {
+        position: relative;
+        height: calc(var(--frame-h) + var(--arc));
+        margin: 1em 0;
+        /* The crow flies in from and out of the edges of the track. */
+        overflow: hidden;
+    }
+    .crow-runner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--frame-w);
+        height: var(--frame-h);
+        animation: var(--kf-move) var(--cycle) var(--start) infinite backwards;
+    }
+    .crow-wings,
+    .crow-perch,
+    .crow-peck,
+    .crow-launch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--frame-w);
+        height: var(--frame-h);
+        background: var(--sheet) 0 0 / var(--sheet-w) var(--frame-h) no-repeat;
+    }
+    /* Flapping: jump through the first four frames of the sheet, no smooth in-betweening. */
+    .crow-wings {
+        animation:
+            crow-flap 0.4s steps(4) infinite,
+            var(--kf-wings-visible) var(--cycle) var(--start) step-end infinite backwards;
+    }
+    /* Sitting. */
+    .crow-perch {
+        background-position: var(--perch-x) 0;
+        visibility: hidden;
+        animation: var(--kf-perch-visible) var(--cycle) var(--start) step-end infinite backwards;
+    }
+    /* Pecking: alternates between the perch frame and the peck frame once every 1.25s. */
+    .crow-peck {
+        background-position: var(--perch-x) 0;
+        visibility: hidden;
+        animation:
+            crow-peck 1.25s var(--start) step-end infinite backwards,
+            var(--kf-peck-visible) var(--cycle) var(--start) step-end infinite backwards;
+    }
+    /* Take-off pose. */
+    .crow-launch {
+        background-position: var(--launch-x) 0;
+        visibility: hidden;
+        animation: var(--kf-launch-visible) var(--cycle) var(--start) step-end infinite backwards;
+    }
+    /* Flowers: four growth frames played with steps(4, jump-none), so the first and last frame are both shown. */
+    .crow-flower {
+        position: absolute;
+        bottom: 0;
+        left: calc(50% + var(--x) - var(--flower-w) / 2);
+        width: var(--flower-w);
+        height: var(--flower-h);
+        background: var(--flower-sheet) 0 0 / var(--flower-sheet-w) var(--flower-h) no-repeat;
+        visibility: hidden;
+        animation: var(--kf-bloom) var(--cycle) calc(var(--start) + var(--delay)) infinite backwards;
+    }
+    @keyframes crow-flap {
+        from {
+            background-position: 0 0;
+        }
+        to {
+            background-position: calc(var(--flap-w) * -1) 0;
+        }
+    }
+    @keyframes crow-peck {
+        0% {
+            background-position: var(--perch-x) 0;
+        }
+        60% {
+            background-position: var(--peck-x) 0;
+        }
+        80% {
+            background-position: var(--perch-x) 0;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .crow-runner {
+            animation: none;
+            left: calc(50% - var(--frame-w) / 2);
+            top: var(--arc);
+        }
+        .crow-wings {
+            animation: none;
+            visibility: hidden;
+        }
+        .crow-perch {
+            animation: none;
+            visibility: visible;
+        }
+        .crow-peck,
+        .crow-launch {
+            animation: none;
+        }
+        .crow-flower {
+            animation: none;
+            visibility: visible;
+            background-position: var(--flower-bloom-x) 0;
+        }
+    }
+</style>
