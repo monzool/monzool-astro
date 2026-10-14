@@ -4,6 +4,9 @@ const today = new Date();
 
 <footer>
     &copy; {today.getFullYear()} | Jan Skriver Sørensen | All rights reserved.
+    <div class="email">
+        <a href="#" id="email-link" data-u="monzool" data-d="monzool.net">Email</a>
+    </div>
     <div class="social-links">
         <a href="https://mastodon.social/@monzool" target="_blank">
             <span class="sr-only">Follow on Mastodon</span>
@@ -63,12 +66,29 @@ const today = new Date();
         </p>
     </div>
 </footer>
+<script>
+    const emailLink = document.getElementById("email-link");
+    if (emailLink) {
+        const address = `${emailLink.dataset.u}🐘${emailLink.dataset.d}`;
+        emailLink.setAttribute("href", `mailto:${address}`);
+        emailLink.textContent = address;
+    }
+</script>
 <style>
     footer {
         padding: 2em 1em 6em 1em;
         background: linear-gradient(var(--gray-gradient)) no-repeat;
         color: rgb(var(--gray));
         text-align: center;
+    }
+    .email {
+        margin-top: 0.5em;
+    }
+    .email a {
+        color: rgb(var(--gray));
+    }
+    .email a:hover {
+        color: rgb(var(--gray-dark));
     }
     .social-links {
         display: flex;
