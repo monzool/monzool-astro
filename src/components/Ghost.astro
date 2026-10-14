@@ -1,0 +1,129 @@
+---
+// 8-bit ghost that runs back and forth across its container.
+// Each character is one pixel: X = body, E = eye, . = empty.
+// A 1 pixel outline is added around the sprite so the white body shows on a white page.
+// The sprite is drawn with box-shadows (one per pixel) and animated with CSS only.
+const PIXEL = 2;
+const OUTLINE = '#222939';
+const COLORS: Record<string, string> = { X: '#ffffff', E: '#2121de' };
+const ghostTop = [
+    '....XXXXXX....',
+    '..XXXXXXXXXX..',
+    '.XXXXXXXXXXXX.',
+    'XXXXEEXXXEEXXX',
+    'XXXXEEXXXEEXXX',
+    'XXXXEEXXXEEXXX',
+    'XXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXX',
+];
+const ghostLegsA = ['XXXXXXXXXXXXXX', 'XXX..XXXX..XXX', 'XX....XX....XX'];
+const ghostLegsB = ['XXXXXXXXXXXXXX', 'XX..XXXXXX..XX', 'X....XXXX....X'];
+
+// Pixels of one frame including the outline. Coordinates are shifted by 1 to make room for the outline.
+const framePixels = (rows: string[]) => {
+    const filled = (x: number, y: number) => Boolean(COLORS[rows[y]?.[x] ?? '.']);
+    const pixels: { x: number; y: number; color: string }[] = [];
+    for (let y = -1; y <= rows.length; y++) {
+        for (let x = -1; x <= rows[0].length; x++) {
+            const color = COLORS[rows[y]?.[x] ?? '.'];
+            if (color) {
+                pixels.push({ x: x + 1, y: y + 1, color });
+            } else if (filled(x - 1, y) || filled(x + 1, y) || filled(x, y - 1) || filled(x, y + 1)) {
+                pixels.push({ x: x + 1, y: y + 1, color: OUTLINE });
+            }
+        }
+    }
+    return pixels;
+};
+
+// Everything above LEGS_TOP is the same in both frames; the legs element swaps between two frames.
+const LEGS_TOP = ghostTop.length + 2;
+const SIZE = ghostTop[0].length + 2;
+const frameA = framePixels([...ghostTop, ...ghostLegsA]);
+const frameB = framePixels([...ghostTop, ...ghostLegsB]);
+const toShadow = (pixels: typeof frameA, yOffset = 0) =>
+    pixels.map(({ x, y, color }) => `${x * PIXEL}px ${(y - yOffset) * PIXEL}px ${color}`).join(',');
+const legs = (frame: typeof frameA) => frame.filter(({ y }) => y >= LEGS_TOP);
+const ghostStyle = [
+    `--px: ${PIXEL}px`,
+    `--ghost-size: ${SIZE * PIXEL}px`,
+    `--legs-top: ${LEGS_TOP * PIXEL}px`,
+    `--ghost-body: ${toShadow(frameA.filter(({ y }) => y < LEGS_TOP))}`,
+    `--ghost-legs-a: ${toShadow(legs(frameA), LEGS_TOP)}`,
+    `--ghost-legs-b: ${toShadow(legs(frameB), LEGS_TOP)}`,
+].join(';');
+---
+
+<div class="ghost-track" style={ghostStyle} aria-hidden="true">
+    <div class="ghost-runner">
+        <div class="ghost">
+            <div class="ghost-legs"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .ghost-track {
+        position: relative;
+        height: var(--ghost-size);
+        margin: 1em 0;
+    }
+    /* Moves back and forth between the sides. */
+    .ghost-runner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: ghost-run 6s linear infinite alternate;
+    }
+    /* One 1x1 pixel element; the sprite is its box-shadows. Mirrored around the sprite centre on the way back. */
+    .ghost {
+        width: var(--px);
+        height: var(--px);
+        box-shadow: var(--ghost-body);
+        transform-origin: calc(var(--ghost-size) / 2) 0;
+        animation: ghost-face 12s step-end infinite;
+    }
+    .ghost-legs {
+        position: absolute;
+        top: var(--legs-top);
+        left: 0;
+        width: var(--px);
+        height: var(--px);
+        box-shadow: var(--ghost-legs-a);
+        animation: ghost-legs 0.4s step-end infinite;
+    }
+    @keyframes ghost-run {
+        from {
+            left: 0;
+        }
+        to {
+            left: calc(100% - var(--ghost-size));
+        }
+    }
+    @keyframes ghost-face {
+        0% {
+            transform: scaleX(1);
+        }
+        50% {
+            transform: scaleX(-1);
+        }
+    }
+    @keyframes ghost-legs {
+        0% {
+            box-shadow: var(--ghost-legs-a);
+        }
+        50% {
+            box-shadow: var(--ghost-legs-b);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .ghost-runner,
+        .ghost,
+        .ghost-legs {
+            animation: none;
+        }
+    }
+</style>
