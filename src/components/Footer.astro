@@ -47,6 +47,21 @@ const today = new Date();
             >
         </a>
     </div>
+    <div class="webrings">
+        <hr>
+        <p>
+            <strong>Geekring</strong><br />
+            <a href="http://geekring.net/site/NUMBER/previous">Previous site</a>⠀
+            <a href="http://geekring.net/site/NUMBER/random">Random site</a>⠀
+            <a href="http://geekring.net/site/NUMBER/next">Next site</a>
+        </p>
+        <p>
+            <strong>Fediring</strong><br />
+            <a href="https://fediring.net/previous?host=monzool.net">←⠀</a>
+            <a href="https://fediring.net/">Fediring</a>
+            <a href="https://fediring.net/next?host=monzool.net">⠀→</a>
+        </p>
+    </div>
 </footer>
 <style>
     footer {
@@ -66,6 +81,19 @@ const today = new Date();
         color: rgb(var(--gray));
     }
     .social-links a:hover {
+        color: rgb(var(--gray-dark));
+    }
+    .webrings {
+        margin-top: 1em;
+        font-size: 0.85em;
+    }
+    .webrings p {
+        margin: 0.5em 0;
+    }
+    .webrings a {
+        color: rgb(var(--gray));
+    }
+    .webrings a:hover {
         color: rgb(var(--gray-dark));
     }
 </style>
