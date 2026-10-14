@@ -1,0 +1,11 @@
+{
+    "comments": [
+        {
+            "id": 80210,
+            "parent": 0,
+            "author": "Michael",
+            "date": "2016-02-14T05:11:59Z",
+            "content": "Thanks for this!  I'm brand new to Linux, but after a little fiddling and fumbling was able to make it work.  Just one question, which is probably more basic Linux than specific to this program:  When I try to run this command from my terminal,  ~/.config/antfs-cli/3841592901/activities» gupload.py -t \"running\" *.fit, (with the name changed from your device number to mine), I get a file or folder not found error.  It only works for me when I open a terminal window from my activities folder or cd into my folder.  What am I doing wrong?\n\nThanks."
+        }
+    ]
+}

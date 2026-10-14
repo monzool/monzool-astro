@@ -1,0 +1,12 @@
+{
+    "comments": [
+        {
+            "id": 755,
+            "parent": 0,
+            "author": "xmonk",
+            "url": "http://xmonk.org/",
+            "date": "2008-03-31T03:43:25Z",
+            "content": "I don't know much of Python, I'm sure they got the idea from lisp. How ever I do find it kind of strange that they don't allow direct assignment.\n\nIn Lisp, lambda is basically used for the same as in Python, but with Lisp you have the ability to assigning it to a variable for latter referencing, as well as being able to return a function (anonymous or not).\n\nI'm sure they will probably add more functionality, and make it more like Lisp or Lua, as it makes sense, and makes it more usable feature.\n\nI like your blog, will add it to my blogroll."
+        }
+    ]
+}

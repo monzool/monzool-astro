@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+// Comments from the old WordPress site, looked up by the post slug (last path segment).
+const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
+const [entry] = await getCollection('comments', ({ id }) => id === slug);
+const comments = entry?.data.comments ?? [];
+
+// Flatten the reply tree depth-first so replies are listed right below their parent.
+type LegacyComment = (typeof comments)[number];
+const ordered: { comment: LegacyComment; depth: number }[] = [];
+const walk = (parent: number, depth: number) => {
+    for (const comment of comments.filter((c) => c.parent === parent)) {
+        ordered.push({ comment, depth });
+        walk(comment.id, depth + 1);
+    }
+};
+walk(0, 0);
+---
+
+{
+    ordered.length > 0 && (
+        <section class="legacy-comments">
+            <hr />
+            <h4><em>Legacy WordPress Comments</em></h4>
+            <p class="note">
+                These comments were made on the previous version of this blog and can no longer be replied to.
+            </p>
+            <ul>
+                {ordered.map(({ comment, depth }) => (
+                    <li style={`margin-left: ${Math.min(depth, 3) * 1.5}em`}>
+                        <div class="meta">
+                            {comment.url ? (
+                                <a href={comment.url} rel="nofollow ugc noopener">
+                                    {comment.author}
+                                </a>
+                            ) : (
+                                <strong>{comment.author}</strong>
+                            )}
+                            <span class="date">
+                                <FormattedDate date={comment.date} />
+                            </span>
+                        </div>
+                        {comment.content.split(/\n{2,}/).map((paragraph) => (
+                            <p>{paragraph}</p>
+                        ))}
+                    </li>
+                ))}
+            </ul>
+        </section>
+    )
+}
+
+<style>
+    .legacy-comments {
+        margin-top: 3em;
+    }
+    .note {
+        color: rgb(var(--gray));
+        font-size: 0.85em;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        margin: 1em 0;
+        padding: 0.5em 1em;
+        border-left: 3px solid rgb(var(--gray-light));
+    }
+    .meta {
+        font-size: 0.85em;
+    }
+    .date {
+        margin-left: 0.75em;
+        color: rgb(var(--gray));
+    }
+    li p {
+        margin: 0.5em 0;
+        font-size: 0.9em;
+        white-space: pre-line;
+    }
+</style>

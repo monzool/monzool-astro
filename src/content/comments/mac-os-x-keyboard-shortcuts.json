@@ -1,0 +1,27 @@
+{
+    "comments": [
+        {
+            "id": 1564,
+            "parent": 0,
+            "author": "n8v",
+            "url": "http://n8v.enteuxis.org/",
+            "date": "2009-03-24T00:41:49Z",
+            "content": "Wikipedia on Culture Shock:\nOne may long for food the way it is prepared in one's native country, may find the pace of life too fast or slow, may find the people's habits annoying, disgusting, and irritating etc. This phase is often marked by mood swings caused by minor issues or without apparent reason. Depression is not uncommon.\n\nThings going any better now?\n\nBTW, Command + down arrow opens stuff in the Finder.  I hate how different that is than Windows Explorer's keyboard shortcut.  And most of the time, dialog buttons are addressable with a bare key, like 'S' for save or whatever.\n\nThanks for your wp-syntax article too!"
+        },
+        {
+            "id": 1568,
+            "parent": 1564,
+            "author": "monzool",
+            "url": "http://monzool.net/",
+            "date": "2009-03-24T17:39:17Z",
+            "content": "Well, things are better now.\n\nI tried really hard to adapt to the secret Mac OS X keyboard shortcuts and the weird keyboard layout. Eventually I didn't want to invest more frustrated hours in that thing, and concluded that \"I'm just not Mac compatible\". So I sold it  :-/"
+        },
+        {
+            "id": 2172,
+            "parent": 0,
+            "author": "MadMud",
+            "date": "2009-07-03T05:05:29Z",
+            "content": "Hi,\nI am struggeling with similar stuff,too.\nWith Ukelele you can at least make your keyboard alittle more... sane. as for hotkeys I come to the same conclusion as you do they suck - hard. my hands are hurting after one day of working and I get less stuff done... iTerm helps a little with that since it replaces the more or less useless terminal app. But in the end I am wondering if I will simply replace all spps likly by X11 driven ones. When this is the case I will install Linux and be done with it. WHat good are shadows and nice slidy action when you cannot work??"
+        }
+    ]
+}

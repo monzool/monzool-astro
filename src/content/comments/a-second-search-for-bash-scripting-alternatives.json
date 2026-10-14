@@ -1,0 +1,55 @@
+{
+    "comments": [
+        {
+            "id": 80242,
+            "parent": 0,
+            "author": "Zéphyrin",
+            "date": "2024-07-15T09:25:01Z",
+            "content": "What about PowerShell?"
+        },
+        {
+            "id": 80244,
+            "parent": 80242,
+            "author": "monzool",
+            "url": "http://monzool.net/",
+            "date": "2024-08-15T06:12:33Z",
+            "content": "My understanding is that PowerShell requires the dotnet libraries... and those libraries are just too big 🤷"
+        },
+        {
+            "id": 80264,
+            "parent": 0,
+            "author": "ChoHag",
+            "date": "2024-11-21T00:01:39Z",
+            "content": "If you want a general programming language, use a general programming language.\n\nIf you want to launch processes and control their lifetimes and the file descriptors they are launched with, use the shell.\n\nDon't try to use a hammer to tighten a screw."
+        },
+        {
+            "id": 80265,
+            "parent": 0,
+            "author": "Claude",
+            "url": "https://github.com/naver/lispe",
+            "date": "2024-11-21T08:17:11Z",
+            "content": "You should have a look on: https://github.com/naver/lispe/wiki/7.-Shell"
+        },
+        {
+            "id": 80282,
+            "parent": 0,
+            "author": "Sinjai",
+            "date": "2024-11-28T16:27:24Z",
+            "content": "This seems like a needless search for a solution to a non-problem... The whole post is just reasons to use bash. Bash has its idiosyncrasies but it's not the devil people seem to think it is. Foregoing massive compatibility in order to have slightly prettier arrays is a little mind-blowing to me."
+        },
+        {
+            "id": 80291,
+            "parent": 0,
+            "author": "IxDay",
+            "date": "2024-12-21T06:43:47Z",
+            "content": "Hey there,\n\nI kind of hit the same issue as you, and went full on with MRuby. It might still not be the solution you are looking for but it is working pretty well for my use case. I wrote about the reasoning here: https://news.ycombinator.com/item?id=42192802 if you want to take a look"
+        },
+        {
+            "id": 80325,
+            "parent": 0,
+            "author": "ldwgchen",
+            "date": "2025-03-27T08:16:28Z",
+            "content": "Very informative review! I've been looking for an alternative shell myself, and my thoughts before reading this post coincided with your conclusion. Personally I prefer bash + structured text tool (like jq, mlr) over a shell built around tables like nu, and I don't quite get why so many shells are being made for the use cases targeted by nu."
+        }
+    ]
+}

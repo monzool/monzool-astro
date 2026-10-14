@@ -1,0 +1,11 @@
+{
+    "comments": [
+        {
+            "id": 864,
+            "parent": 0,
+            "author": "thecrab",
+            "date": "2008-06-15T22:37:20Z",
+            "content": "$ tar xvf fink-0.28.1.tar\n$ cd fink-0.28.1\n$ ./bootstrap\n$ /sw/bin/pathsetup.sh\n$ cd /sw/bin/\n$ source ./init.sh\n$ fink selfupdate"
+        }
+    ]
+}

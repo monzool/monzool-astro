@@ -12,6 +12,16 @@ Notable changes to monzool.net. Newest first.
   - Comments also load in `astro dev` and `localhost` shares discussions with production, so delete test comments on GitHub afterwards.
 
 
+## Old WordPress comments
+
+- Approved comments from the WordPress site are shown read-only as "Comments from the old site", above the giscus widget.
+  - Generated once by `scripts/convert-wp-comments.mjs` from the `wp_comments` and `wp_posts` SQL dumps (`node scripts/convert-wp-comments.mjs [dumpDir]`, default `/tmp/wordpress`). Comments are mapped to posts by WordPress post ID, via `post_name`, to the Markdown filename.
+  - Output is one `src/content/comments/<slug>.json` file per post (a `comments` content collection), rendered by `src/components/LegacyComments.astro`, which finds the file from the page URL.
+  - Only the author, optional website, date and text are kept; emails, IP addresses and user agents are dropped, and the text is stripped to plain text.
+  - Pingbacks and spam were left out. Spam and duplicate comment IDs are listed in `EXCLUDED_COMMENT_IDS` in the script.
+  - Author links use `rel="nofollow ugc noopener"`.
+
+
 ## Webrings
 
 - Footer links for the Geekring and Fediring webrings.
