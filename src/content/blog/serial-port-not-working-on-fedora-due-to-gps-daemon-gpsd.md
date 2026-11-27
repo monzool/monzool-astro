@@ -3,7 +3,7 @@ title: "Serial Port Not Working On Fedora Due To GPS Daemon (gpsd)"
 description: ''
 pubDate: '2011-06-08'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "linux"
   - "software"
 ---

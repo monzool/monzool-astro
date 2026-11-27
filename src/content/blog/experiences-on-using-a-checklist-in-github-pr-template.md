@@ -3,7 +3,7 @@ title: "Experiences on using a checklist in github PR template"
 description: ''
 pubDate: '2022-12-01'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "software"
   - "source-control"
 ---

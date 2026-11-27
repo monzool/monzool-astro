@@ -3,7 +3,7 @@ title: "Scrambling BASH Script Contents"
 description: ''
 pubDate: '2016-11-08'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "shell-scripting"
 ---

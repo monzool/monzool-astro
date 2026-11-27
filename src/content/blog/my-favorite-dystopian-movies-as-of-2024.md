@@ -3,7 +3,7 @@ title: "My Favorite Dystopian Movies as of 2024"
 description: ''
 pubDate: '2024-11-07'
 heroImage: '../../assets/dystopian-movies/movies_film_old_reel-750873.jpg'
-categories:
+tags:
   - "entertainment"
   - "movies"
 ---

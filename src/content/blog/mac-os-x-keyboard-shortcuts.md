@@ -3,7 +3,7 @@ title: "Mac OS X Keyboard Shortcuts"
 description: ''
 pubDate: '2007-10-02'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "mac-os-x"
   - "rant"
 ---

@@ -3,7 +3,7 @@ title: "Pixel 7a Trusty TEE failure"
 description: ''
 pubDate: '2025-05-25'
 heroImage: '../../assets/pixel-7a-trusty-tee-failure/thumb.png'
-categories:
+tags:
   - "android"
 ---
 

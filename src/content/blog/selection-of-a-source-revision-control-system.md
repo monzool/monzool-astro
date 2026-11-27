@@ -3,7 +3,7 @@ title: "Selection of a Source Revision Control System"
 description: ''
 pubDate: '2007-09-05'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "source-control"
 ---

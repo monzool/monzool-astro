@@ -3,7 +3,7 @@ title: "F1 Timing App 2013"
 description: ''
 pubDate: '2013-11-12'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "rant"
   - "reviews"
   - "software"

@@ -3,7 +3,7 @@ title: "C++ Contructor/Destructor Call Order"
 description: ''
 pubDate: '2007-09-19'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "c"
   - "programming"
 ---

@@ -3,7 +3,7 @@ title: "Learning GO"
 description: ''
 pubDate: '2007-09-27'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "entertainment"
   - "games"
   - "personal"

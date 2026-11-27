@@ -3,7 +3,7 @@ title: "Cross-compiling Janet-lang"
 description: ''
 pubDate: '2019-12-13'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "shell-scripting"
   - "software"

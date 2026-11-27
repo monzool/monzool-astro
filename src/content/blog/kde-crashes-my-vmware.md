@@ -3,7 +3,7 @@ title: "Kde Crashes My VMware"
 description: ''
 pubDate: '2008-02-17'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "linux"
   - "software"
 ---

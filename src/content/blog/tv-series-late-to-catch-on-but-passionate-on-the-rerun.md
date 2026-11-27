@@ -3,7 +3,7 @@ title: "TV Series. Late To Catch On, But Passionate On The Rerun."
 description: ''
 pubDate: '2007-11-04'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "entertainment"
   - "tv"
 ---

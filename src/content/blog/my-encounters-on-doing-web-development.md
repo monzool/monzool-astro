@@ -3,7 +3,7 @@ title: "My encounters on doing web development"
 description: ''
 pubDate: '2021-12-14'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "web"
 ---

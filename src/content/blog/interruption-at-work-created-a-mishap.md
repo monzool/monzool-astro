@@ -3,7 +3,7 @@ title: "Interruption At Work Created A Mishap"
 description: ''
 pubDate: '2009-08-30'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "c"
   - "entertainment"
   - "lua"

@@ -3,12 +3,11 @@ title: "Homebrew breaking git tab completion in zsh"
 description: ''
 pubDate: '2026-03-19'
 heroImage: '../../assets/homebrew-breaking-git-tab-completion-in-zsh/homebrew-social-card.png'
-categories:
-  - "linux"
-  - "software"
-tags: 
+tags:
   - "git"
   - "homebrew"
+  - "linux"
+  - "software"
   - "zsh"
 ---
 

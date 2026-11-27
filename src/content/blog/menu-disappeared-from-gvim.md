@@ -3,7 +3,7 @@ title: "Menu Disappeared From GVim"
 description: ''
 pubDate: '2009-04-27'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "software"
 ---
 

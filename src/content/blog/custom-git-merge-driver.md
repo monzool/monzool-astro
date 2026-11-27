@@ -3,7 +3,7 @@ title: "Custom git merge driver"
 description: ''
 pubDate: '2026-03-24'
 heroImage: '../../assets/custom-git-merge-driver/thumb.png'
-categories:
+tags:
   - "linux"
   - "python"
   - "source-control"

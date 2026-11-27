@@ -3,7 +3,7 @@ title: "Going down the Fish shell internet wormhole"
 description: ''
 pubDate: '2020-07-27'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "shell-scripting"
   - "software"

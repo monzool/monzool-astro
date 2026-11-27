@@ -3,7 +3,7 @@ title: "Beginning Lua Programming"
 description: ''
 pubDate: '2007-08-09'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "books-technical"
 ---
 

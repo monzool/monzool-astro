@@ -3,7 +3,7 @@ title: "The build system is rigged (with pranks)"
 description: ''
 pubDate: '2021-10-05'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "shell-scripting"
 ---
 

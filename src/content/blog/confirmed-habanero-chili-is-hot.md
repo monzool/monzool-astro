@@ -3,7 +3,7 @@ title: "Confirmed. Habanero Chili is HOT."
 description: ''
 pubDate: '2007-11-09'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "foods-drinks"
 ---
 

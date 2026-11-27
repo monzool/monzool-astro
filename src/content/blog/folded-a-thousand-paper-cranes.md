@@ -3,7 +3,7 @@ title: "Folded a Thousand Paper Cranes"
 description: ''
 pubDate: '2012-05-09'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
 ---
 

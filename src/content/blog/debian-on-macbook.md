@@ -3,7 +3,7 @@ title: "Debian On Macbook"
 description: ''
 pubDate: '2008-04-16'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "linux"
   - "mac-os-x"
   - "software"

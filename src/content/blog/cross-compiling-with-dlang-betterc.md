@@ -3,7 +3,7 @@ title: "Cross-compiling with dlang betterc"
 description: ''
 pubDate: '2020-11-18'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "c"
   - "programming"
 ---

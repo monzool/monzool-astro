@@ -3,7 +3,7 @@ title: "First Day At Bang & Olufsen"
 description: ''
 pubDate: '2008-01-02'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
 ---
 

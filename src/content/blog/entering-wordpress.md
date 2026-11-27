@@ -3,7 +3,7 @@ title: "Entering WordPress"
 description: ''
 pubDate: '2007-05-13'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
 ---
 

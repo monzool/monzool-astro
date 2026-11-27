@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""List categories and tags defined in the frontmatter of markdown posts.
+"""List tags defined in the frontmatter of markdown posts.
 
 Usage:
     scripts/list-taxonomy.py [DIR ...]
@@ -40,34 +40,29 @@ def main() -> int:
     files = sorted(f for d in dirs for f in d.rglob("*.md*"))
 
     untagged: list[str] = []
-    cat_count: Counter[str] = Counter()
     tag_count: Counter[str] = Counter()
 
-    print("== Posts with categories and/or tags ==\n")
+    print("== Posts with tags ==\n")
     for f in files:
         try:
             fm = read_frontmatter(f)
         except yaml.YAMLError as e:
             print(f"{f.name}\n  !! frontmatter parse error: {e}\n", file=sys.stderr)
             continue
-        cats = as_list(fm.get("categories"))
         tags = as_list(fm.get("tags"))
-        if not cats and not tags:
+        if not tags:
             untagged.append(f.name)
             continue
-        cat_count.update(cats)
         tag_count.update(tags)
         print(f.name)
-        print(f"  categories: {', '.join(cats) if cats else '-'}")
-        print(f"  tags:       {', '.join(tags) if tags else '-'}")
+        print(f"  tags: {', '.join(tags)}")
         print()
 
-    print(f"== Posts with no categories or tags ({len(untagged)}) ==\n")
+    print(f"== Posts with no tags ({len(untagged)}) ==\n")
     for name in untagged:
         print(f"  {name}")
     print()
 
-    print_counts("Categories", cat_count)
     print_counts("Tags", tag_count)
     return 0
 

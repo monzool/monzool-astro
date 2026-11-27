@@ -3,7 +3,7 @@ title: "B&O Speakers Rocks - Other Music Too"
 description: ''
 pubDate: '2008-02-26'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
 ---
 

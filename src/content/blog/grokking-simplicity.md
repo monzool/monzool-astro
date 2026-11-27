@@ -3,7 +3,7 @@ title: "Grokking Simplicity"
 description: ''
 pubDate: '2024-08-15'
 heroImage: '../../assets/grokking-simplicity/thumb.jpg'
-categories:
+tags:
   - "books-technical"
   - "programming"
   - "reviews"

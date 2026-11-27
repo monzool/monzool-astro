@@ -3,7 +3,7 @@ title: "Peter Falk - Just One More Thing"
 description: ''
 pubDate: '2008-03-04'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "books-literature"
   - "reviews"
 ---

@@ -3,7 +3,7 @@ title: "A Second Search for Bash Scripting Alternatives"
 description: ''
 pubDate: '2024-07-14'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "shell-scripting"
 ---

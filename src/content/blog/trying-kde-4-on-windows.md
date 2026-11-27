@@ -3,7 +3,7 @@ title: "Trying KDE 4 On Windows"
 description: ''
 pubDate: '2008-02-06'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "reviews"
   - "software"
 ---

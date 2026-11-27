@@ -3,7 +3,7 @@ title: "Placement new"
 description: ''
 pubDate: '2007-08-20'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "c"
   - "programming"
 ---

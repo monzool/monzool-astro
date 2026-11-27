@@ -3,7 +3,7 @@ title: "Garmin Forerunner 610 and Garmin Connect on Linux"
 description: ''
 pubDate: '2015-02-28'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "linux"
   - "personal"
   - "software"

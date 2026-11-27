@@ -3,7 +3,7 @@ title: "Linux Nvidia Driver GLX Failure"
 description: ''
 pubDate: '2009-10-02'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "games"
   - "linux"
   - "software"

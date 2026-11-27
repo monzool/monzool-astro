@@ -3,7 +3,7 @@ title: "What GUI Toolkit To Use?"
 description: ''
 pubDate: '2008-02-29'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "programming"
   - "software"

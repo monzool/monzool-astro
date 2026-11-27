@@ -3,7 +3,7 @@ title: "Linux Power Management on a Dell Precision 5470"
 description: ''
 pubDate: '2023-05-31'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "hardware"
   - "linux"
   - "software"

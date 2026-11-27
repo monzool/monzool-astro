@@ -3,7 +3,7 @@ title: "Core Python Programming"
 description: ''
 pubDate: '2008-03-21'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "books-technical"
   - "reviews"
 ---

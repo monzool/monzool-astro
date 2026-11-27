@@ -3,7 +3,7 @@ title: 'Migrating from WordPress to Astro'
 description: 'Notes and technical learnings from moving monzool.net off WordPress and onto Astro'
 pubDate: '2026-09-24'
 heroImage: '../../assets/migrating-from-wordpress-to-astro/thumb.png'
-categories:
+tags:
   - "software"
 ---
 

@@ -3,7 +3,7 @@ title: "Warlords II, Flashback and Abuse Revisited"
 description: ''
 pubDate: '2008-03-05'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "entertainment"
   - "games"
 ---

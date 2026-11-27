@@ -3,7 +3,7 @@ title: "Five Good C++ Books"
 description: ''
 pubDate: '2008-04-02'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "books-technical"
   - "reviews"
 ---

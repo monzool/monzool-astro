@@ -3,11 +3,10 @@ title: "A Case of Saving Money by Spending More"
 description: ''
 pubDate: '2019-01-03'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
-  - "travel"
-tags: 
   - "rejsekort"
+  - "travel"
 ---
 
 **THE DANISH REJSEKORT** is an electronic payment system used in most danish public transportation systems like buses, trains and subways. Its an electronic card that comes in two variants: an anonymous edition where you manually deposit fare money by a kiosk system. The second edition is personalized and offers an online management system with option of association to a payment card (Dankort, VISA, Master card etc). This personal edition also offers a discount system which is intended to give the Rejsekort a price competitive incentive compared to single ticket purchases.

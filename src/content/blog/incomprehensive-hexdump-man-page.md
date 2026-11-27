@@ -3,7 +3,7 @@ title: "Incomprehensive Hexdump Man Page"
 description: ''
 pubDate: '2008-02-18'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "lua"
   - "programming"
   - "rant"

@@ -3,7 +3,7 @@ title: "TheCamp"
 description: ''
 pubDate: '2007-08-08'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "travel"
 ---

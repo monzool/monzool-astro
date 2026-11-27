@@ -3,7 +3,7 @@ title: "Learning How To Run"
 description: ''
 pubDate: '2013-07-15'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "sport"
 ---

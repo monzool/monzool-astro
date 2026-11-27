@@ -3,7 +3,7 @@ title: "Eternal Terminal on Arch/Manjaro and Ubuntu"
 description: ''
 pubDate: '2022-06-17'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "linux"
   - "software"
 ---

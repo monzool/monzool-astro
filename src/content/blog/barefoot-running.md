@@ -3,7 +3,7 @@ title: "Barefoot Running"
 description: ''
 pubDate: '2013-03-12'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "sport"
 ---

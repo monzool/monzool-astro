@@ -3,7 +3,7 @@ title: "Help On Python Regular Expressions"
 description: ''
 pubDate: '2007-10-15'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "python"
   - "regular-expressions"

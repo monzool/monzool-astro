@@ -3,7 +3,7 @@ title: "The Word And The Void By Terry Brooks"
 description: ''
 pubDate: '2009-06-01'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "books-literature"
   - "reviews"
 ---

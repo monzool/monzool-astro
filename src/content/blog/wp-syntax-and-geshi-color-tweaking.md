@@ -3,7 +3,7 @@ title: "WP-Syntax and GeShi Color Tweaking"
 description: ''
 pubDate: '2007-09-01'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "web"
 ---

@@ -3,7 +3,7 @@ title: "Wolf Tattoo Restoration"
 description: ''
 pubDate: '2008-04-24'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
 ---
 

@@ -3,7 +3,7 @@ title: "Noise Torture From Logitech And Lenovo"
 description: ''
 pubDate: '2008-04-08'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "hardware"
 ---
 

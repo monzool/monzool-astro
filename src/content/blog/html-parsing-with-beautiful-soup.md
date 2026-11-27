@@ -3,7 +3,7 @@ title: "HTML Parsing With Beautiful Soup"
 description: 'An example of using Beautiful Soup'
 pubDate: '2007-10-15'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "python"
 ---

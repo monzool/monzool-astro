@@ -3,7 +3,7 @@ title: "Upgraded From WordPress 2.2.2 to WordPress 2.7"
 description: ''
 pubDate: '2009-02-08'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "programming"
   - "web"

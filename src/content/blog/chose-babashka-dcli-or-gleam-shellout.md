@@ -3,7 +3,7 @@ title: "Chose Babashka, DCli or Gleam/Shellout?"
 description: ''
 pubDate: '2024-01-21'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "shell-scripting"
 ---

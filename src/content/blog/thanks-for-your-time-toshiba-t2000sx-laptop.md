@@ -3,7 +3,7 @@ title: "Thanks For Your Time Toshiba T2000SX Laptop"
 description: ''
 pubDate: '2008-06-24'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "hardware"
 ---
 

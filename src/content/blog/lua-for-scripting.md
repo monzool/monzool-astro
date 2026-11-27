@@ -3,7 +3,7 @@ title: "Lua for Scripting"
 description: ''
 pubDate: '2007-08-30'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "lua"
   - "programming"
 ---

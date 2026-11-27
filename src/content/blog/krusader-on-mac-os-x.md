@@ -3,7 +3,7 @@ title: "Krusader On Mac OS X"
 description: ''
 pubDate: '2008-03-29'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "mac-os-x"
   - "software"
 ---

@@ -3,7 +3,7 @@ title: "Microsoft Natural Ergonomic Keyboard 4000"
 description: ''
 pubDate: '2007-10-17'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "hardware"
   - "reviews"
 ---

@@ -3,7 +3,7 @@ title: "Moving to a new android phone sucks"
 description: ''
 pubDate: '2025-09-19'
 heroImage: '../../assets/moving-to-new-a-android-phone-sucks/thumb.png'
-categories:
+tags:
   - "android"
   - "reviews"
 ---

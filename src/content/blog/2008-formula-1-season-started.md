@@ -3,7 +3,7 @@ title: "2008 Formula 1 Season Started"
 description: ''
 pubDate: '2008-03-16'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "entertainment"
 ---
 

@@ -3,7 +3,7 @@ title: "Dystopian Movies"
 description: ''
 pubDate: '2007-09-29'
 heroImage: '../../assets/dystopian-movies/movies_film_old_reel-750873.jpg'
-categories:
+tags:
   - "entertainment"
   - "movies"
   - "personal"

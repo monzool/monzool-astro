@@ -3,7 +3,7 @@ title: "GNU Screen For Serial Null Modem Connections"
 description: ''
 pubDate: '2008-01-17'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "software"
 ---
 

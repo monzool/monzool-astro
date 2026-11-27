@@ -3,7 +3,7 @@ title: "Google not finding my blog posts"
 description: ''
 pubDate: '2022-05-05'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "software"
 ---
 

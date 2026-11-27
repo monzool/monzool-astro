@@ -3,7 +3,7 @@ title: "Word 2007 Learn From Vi"
 description: ''
 pubDate: '2008-06-24'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "software"
 ---
 

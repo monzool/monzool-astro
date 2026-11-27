@@ -3,7 +3,7 @@ title: "Speedway On A Cold, Windy And Rainy day"
 description: ''
 pubDate: '2008-10-07'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "travel"
 ---

@@ -3,7 +3,7 @@ title: "Unsuccessful ClojureScript Quick-Start"
 description: ''
 pubDate: '2017-09-14'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "web"
 ---

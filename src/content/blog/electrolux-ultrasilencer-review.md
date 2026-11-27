@@ -3,7 +3,7 @@ title: "Electrolux UltraSilencer Review"
 description: ''
 pubDate: '2015-07-19'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "hardware"
   - "personal"
   - "reviews"

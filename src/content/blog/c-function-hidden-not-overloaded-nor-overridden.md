@@ -3,7 +3,7 @@ title: "C++ Function Hidden, Not Overloaded Nor Overridden"
 description: ''
 pubDate: '2008-02-12'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "c"
   - "programming"
 ---

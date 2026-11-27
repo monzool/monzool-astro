@@ -3,7 +3,7 @@ title: "NULL Is No Obstacle For Tiesto"
 description: ''
 pubDate: '2008-03-24'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "entertainment"
   - "music"
 ---

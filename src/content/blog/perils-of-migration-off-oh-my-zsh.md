@@ -3,7 +3,7 @@ title: "Perils of migration off oh-my-zsh"
 description: ''
 pubDate: '2026-08-05'
 heroImage: '../../assets/perils-of-migrating-off-oh-my-zsh/thumb.jpg'
-categories:
+tags:
   - "linux"
   - "shell-scripting"
 ---

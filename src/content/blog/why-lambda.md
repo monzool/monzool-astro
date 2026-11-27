@@ -3,7 +3,7 @@ title: "Why Lambda?"
 description: ''
 pubDate: '2008-03-19'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "lua"
   - "programming"
   - "python"

@@ -3,7 +3,7 @@ title: "Running Garmin Connect IQ SDK on Ubuntu-20"
 description: ''
 pubDate: '2021-10-26'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "programming"
   - "software"
 ---

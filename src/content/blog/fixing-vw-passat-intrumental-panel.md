@@ -3,7 +3,7 @@ title: "Fixing VW Passat Intrumental Panel"
 description: ''
 pubDate: '2009-01-30'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
 ---
 

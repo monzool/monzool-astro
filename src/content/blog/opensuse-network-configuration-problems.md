@@ -3,7 +3,7 @@ title: "OpenSuse Network Configuration Problems"
 description: ''
 pubDate: '2008-03-12'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "linux"
   - "software"
 ---

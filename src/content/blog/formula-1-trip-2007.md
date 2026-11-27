@@ -3,7 +3,7 @@ title: "Formula 1 Trip 2007"
 description: ''
 pubDate: '2007-09-17'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "personal"
   - "travel"
 ---

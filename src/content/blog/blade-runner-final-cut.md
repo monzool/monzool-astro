@@ -3,7 +3,7 @@ title: "Blade Runner - Final Cut"
 description: ''
 pubDate: '2008-05-21'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
-categories:
+tags:
   - "entertainment"
   - "movies"
   - "personal"
