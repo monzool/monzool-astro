@@ -3,6 +3,8 @@ title: "Google not finding my blog posts"
 description: ''
 pubDate: '2022-05-05'
 heroImage: '../../assets/fallback-blossom-blue.jpg'
+categories:
+  - "software"
 ---
 
 **ON THIS SITE** i've been suffering of an issue with Google forgetting about most of my blog posts...
