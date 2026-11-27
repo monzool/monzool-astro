@@ -8,10 +8,11 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import LegacyComments from '../components/LegacyComments.astro';
+import { getTagUrl } from '../utils/blog';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
 ---
 
 <html lang="en">
@@ -82,6 +83,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
                     </div>
                     <Crow pause={20}/>
                     <slot />
+                    {tags.length > 0 && (
+                        <p>Tags: {tags.map((tag, index) => (
+                            <>{index > 0 && ', '}<a href={getTagUrl(tag)}>{tag}</a></>
+                        ))}</p>
+                    )}
                     <LegacyComments />
                     <Comments />
                 </div>

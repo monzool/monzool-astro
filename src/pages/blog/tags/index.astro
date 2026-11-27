@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../../layouts/Page.astro';
+import { getTagUrl } from '../../../utils/blog';
+
+const posts = await getCollection('blog');
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+---
+
+<Page title="Blog tags" description="Browse all blog posts by tag.">
+    <ul>
+        {tags.map((tag) => <li><a href={getTagUrl(tag)}>{tag}</a></li>)}
+    </ul>
+</Page>

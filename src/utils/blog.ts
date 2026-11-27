@@ -16,3 +16,7 @@ export function getPostUrl(post: CollectionEntry<'blog'>): string {
 
     return `/blog/${year}/${month}/${day}/${slug}/`;
 }
+
+export function getTagUrl(tag: string): string {
+    return `/blog/tags/${encodeURIComponent(tag)}/`;
+}

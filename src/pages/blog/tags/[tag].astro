@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Page from '../../../layouts/Page.astro';
+import { getPostUrl } from '../../../utils/blog';
+
+export async function getStaticPaths() {
+    const posts = (await getCollection('blog')).sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
+    const tags = new Set(posts.flatMap((post) => post.data.tags));
+
+    return [...tags].map((tag) => ({
+        params: { tag },
+        props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) },
+    }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Page title={`Posts tagged “${tag}”`} description={`Browse blog posts tagged ${tag}.`}>
+    <p><a href="/blog/tags/">All tags</a></p>
+    <ul>
+        {posts.map((post) => (
+            <li>
+                <a href={getPostUrl(post)}>{post.data.title}</a>
+                <FormattedDate date={post.data.pubDate} />
+            </li>
+        ))}
+    </ul>
+</Page>
